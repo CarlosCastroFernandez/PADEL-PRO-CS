@@ -1,0 +1,11 @@
+:root{
+  --primary:168 76% 42%;
+  --normal-letter:215 20% 65%;
+  --background-menu:222 47% 6%;
+  --border:222 30% 18%
+}
+body{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}

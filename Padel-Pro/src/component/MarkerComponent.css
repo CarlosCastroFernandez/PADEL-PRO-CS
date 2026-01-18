@@ -1,0 +1,111 @@
+.marker-section {
+  padding-left: 12rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-image: linear-gradient(
+      to right,
+      rgb(0, 0, 0),
+      rgba(0, 0, 0, 0.803),
+      rgba(0, 0, 0, 0.44)
+    ),
+    url("../img/hero.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.marker-section h1 {
+  height: 520px;
+  color: white;
+  font-size: 8rem;
+}
+.marker-section p {
+  color: white;
+}
+.marker-section .container1-marker p {
+  line-height: 27px;
+  color: hsl(var(--normal-letter));
+  margin-bottom: 30px;
+  font-size: 22px;
+}
+.group-button2-marker {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.marker-section button {
+  height: 45px;
+  border: 3px solid hsl(var(--primary));
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+  cursor: pointer;
+}
+.button1-marker {
+  background-color: hsl(var(--primary));
+  color: black;
+  font-weight: bold;
+}
+.button2-marker {
+  background-color: transparent;
+  color: hsl(var(--primary));
+}
+.container-img-marker {
+  width: 50px;
+  height: 50px;
+  background-color: hsl(var(--primary)/0.2);
+  border-radius: 15px;
+}
+.container-marker-ticket {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 150px;
+}
+.container-marker-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center; /* 🔥 clave */
+  gap: 12px;
+}
+.container-marker-grid .container-img-marker {
+  grid-row: 1/3;
+}
+.container-marker-grid p {
+  align-self: center;
+}
+.container-text-marker {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 🔥 centra vertical */
+  align-items: center;
+
+  gap: 10px;
+}
+
+.container-text-marker .marker-number {
+  font-size: 35px;
+}
+.container-text-marker .marker-label {
+  font-size: 12px;
+}
+.container-text-marker p {
+  margin: 0;
+}
+.marker-section2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: hsl(var(--background-menu));
+  padding: 70px;
+}
+.marker-section2 h1 {
+  color: white;
+  font-size: 4rem;
+}
+.marker-section2 p {
+  color: hsl(var(--normal-letter));
+  font-size: 22px;
+}
