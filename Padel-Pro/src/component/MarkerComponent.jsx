@@ -5,7 +5,7 @@ import TrainerComponent from './TrainerComponent';
  const Marker=()=> {
     return (
       <>
-        <main>
+        <main className='main-marker'>
           <section className='marker-section'>
             <div className='container1-marker'>
               <h1>RESERVA <br />TU<br /><span>ClASE DE<br />PADEL</span></h1>
@@ -55,6 +55,7 @@ import TrainerComponent from './TrainerComponent';
             <div>
               <h1>RESERVA TU <span>CLASE</span></h1>
               <p>Elige tu profesor favorito, selecciona fecha y hora, y preparate para mejorar tu juego</p>
+              <p style={{fontSize:"larger",cursor:"pointer", borderBottom:"1px solid hsl(var(--primary))" }}>Inicia Sesión para reservar</p>
             </div>
           </section>
           <section className='section-trainers'>

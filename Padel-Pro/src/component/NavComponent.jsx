@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 
 import "./NavComponent.css";
+import { useNavigate } from 'react-router-dom';
 
 const Nav= ()=> {
 
     const [userLogin, setUserLogin] = useState(null);
-
+    const navigate=useNavigate();
     const changeUser = (userLogeado) => {
       setUserLogin(userLogeado);
+    }
+    const navigatLogIn=()=>{
+      navigate("/log-in");
     }
 
     const showUserInNav = () => {
@@ -60,7 +64,7 @@ const Nav= ()=> {
                  showUserInNav() 
               ) : (
                 <>
-                  <button className='button-menu1'>Iniciar Sesión</button>
+                  <button className='button-menu1' onClick={navigatLogIn}>Iniciar Sesión</button>
                   <button className='button-menu2'>Registrarse</button>
                 </>
               )

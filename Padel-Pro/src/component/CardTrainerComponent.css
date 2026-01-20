@@ -1,0 +1,21 @@
+.caja-trainer {
+  border: 1px solid hsl(var(--border));
+  border-radius: 10px;
+  background: var(--gradient-card);
+  height: 350px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* empuja la experiencia abajo */}
+
+.caja-trainer .trainer-info {
+  width: 100%; /* <--- fuerza a ocupar todo el ancho del padre */
+  text-align: center;
+}
+
+.caja-trainer img {
+  width: 100%;      /* ocupa todo el ancho del div padre */
+  height: 200px;    /* ajustable */
+  object-fit: cover; /* mantiene proporción y recorta si hace falta */
+  border-radius: 10px;
+}

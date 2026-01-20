@@ -1,3 +1,6 @@
+.main-marker{
+    background-color: hsl(var(--background-menu));
+}
 .marker-section {
   padding-left: 12rem;
   display: flex;
@@ -98,8 +101,8 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: hsl(var(--background-menu));
-  padding: 70px;
+
+  padding: 30px;
 }
 .marker-section2 h1 {
   color: white;
@@ -108,4 +111,7 @@
 .marker-section2 p {
   color: hsl(var(--normal-letter));
   font-size: 22px;
+}
+.section-trainers{
+  padding: 40px;
 }

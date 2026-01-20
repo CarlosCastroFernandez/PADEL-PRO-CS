@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./TrainerComponent.css";
+import CardTrainerComponent from './CardTrainerComponent';
 const TrainerComponent = () => {
     const [listTrainer, setListTrainer] = useState([])
     const loadListTrainer = () => {
@@ -21,16 +22,22 @@ const TrainerComponent = () => {
         loadListTrainer();
     }, [])
     return (
-        <div className='list-trainer'>
-            {
-                listTrainer.map((trainer, idx) => (
-                    <div className='caja-trainer' key={idx}>
-                        <p>{trainer.name}</p>
-                        <p>{trainer.description}</p>
-                    </div>
-                ))
-            }
-        </div>
+        <>
+            <div className='container-trainer'>
+                <div className='title-trainer'>
+                    <p>1</p>
+                    <h3>ELIGE TU PROFESOR</h3>
+
+                </div>
+                <div className='list-trainer'>
+                    {
+                        listTrainer.map((trainer, idx) => (
+                            <CardTrainerComponent className="caja-trainer" key={idx} trainer={trainer}></CardTrainerComponent>
+                        ))
+                    }
+                </div>
+            </div>
+        </>
     )
 }
 
