@@ -1,0 +1,78 @@
+.container-hour{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-left:200px ;
+    padding-right:200px ;
+    width: 100%;
+    
+}
+.title-hour{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    width: 45%;
+    
+  
+}
+.title-hour h3{
+    font-size: x-large;
+}
+.title-hour .container-number-title{
+    border: 1px solid hsl(var(--primary));
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:hsl(var(--primary));
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+.container-data-hour{
+    background: var(--gradient-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px
+   ;
+
+}
+.container-div-hour{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+      overflow-x: auto;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.container-div-hour div{
+    background: hsl(var(--box-hour));
+    width: 150px;
+    border-radius: 20px;
+    text-align: center;
+    color: hsl(var(--normal-letter));
+}
+.container-data-hour .fecha{
+     color: hsl(var(--normal-letter));
+}
+.container-div-hour div .number{
+    color: white;
+    font-size: 25px;
+}
+.container-div-hour {
+    color: hsl(var(--normal-letter));
+}

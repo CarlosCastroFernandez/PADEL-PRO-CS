@@ -25,7 +25,10 @@ const TrainerComponent = () => {
         <>
             <div className='container-trainer'>
                 <div className='title-trainer'>
-                    <p>1</p>
+                    <div className='container-number-title'>
+                        <p>1</p>
+                    </div>
+
                     <h3>ELIGE TU PROFESOR</h3>
 
                 </div>

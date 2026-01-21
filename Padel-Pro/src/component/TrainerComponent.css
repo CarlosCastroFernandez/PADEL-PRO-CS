@@ -1,8 +1,10 @@
 .container-trainer{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-left:200px ;
+    padding-right:200px ;
 }
 .title-trainer{
     display: flex;
@@ -10,12 +12,32 @@
     align-items: center;
     gap: 10px;
     color: white;
-    width: 100%;
+    width: 45%;
+    
+  
+}
+.title-trainer h3{
+    font-size: x-large;
+}
+.title-trainer .container-number-title{
+    border: 1px solid hsl(var(--primary));
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:hsl(var(--primary));
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    
 }
 .list-trainer{
     display: flex;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     color: white;
     gap: 50px;

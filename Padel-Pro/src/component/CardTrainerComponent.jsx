@@ -17,11 +17,13 @@ const CardTrainerComponent = (props) => {
             <div className='caja-trainer'>
                 <div>
                     <img src={hombrePadel} alt="" />
-                    <p>{trainer.name}</p>
-                    <p>{trainer.description}</p>
+                    <p className='name-title'>{trainer.name}</p>
+                    <p className='description'>{trainer.description}</p>
+                    
                 </div>
+                <p className='footer'>{exp} años de experiencia</p>
 
-                <p>{exp} años de experiencia</p>
+             
             </div>
         </>
     )

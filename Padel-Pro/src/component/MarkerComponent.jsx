@@ -1,6 +1,9 @@
 import React, {  } from 'react'
 import "./MarkerComponent.css";
 import TrainerComponent from './TrainerComponent';
+import HourComponent from './HourComponent';
+import DateComponent from './DateComponent';
+import ReservedComponent from './ReservedComponent';
 
  const Marker=()=> {
     return (
@@ -60,7 +63,16 @@ import TrainerComponent from './TrainerComponent';
           </section>
           <section className='section-trainers'>
             <TrainerComponent></TrainerComponent>
-            <hr />
+          
+          </section>
+          <section className='section-hours'> 
+          <HourComponent></HourComponent>
+          </section>
+          <section style={{marginBottom:"40px"}}>
+            <DateComponent></DateComponent>
+          </section>
+          <section style={{width:"76%",margin:"0 auto", paddingBottom:"30px"}}>
+            <ReservedComponent></ReservedComponent>
           </section>
         </main>
 

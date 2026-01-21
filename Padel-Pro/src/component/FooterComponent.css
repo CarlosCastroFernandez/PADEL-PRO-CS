@@ -1,0 +1,42 @@
+footer{
+    background: var(--gradient-hero2);
+    padding: 30px;
+    border-top:0.1px solid white ;
+}
+.container-footer{
+    display: grid;
+    grid-template-columns: repeat(4,2fr);
+    text-align: center;
+    line-height: 20px;
+    color: hsl(var(--normal-letter));
+    
+}
+.container-footer h3{
+    font-size: 30px;
+    color: white;
+}
+.container-footer p{
+    height: 20px;
+}
+
+.container-footer div{
+    display:flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+}
+.sitio{
+    grid-column: 2;
+}
+.sitio1{
+    grid-row: 4;
+    grid-column: 2;
+}
+.sitio2{
+     grid-row: 4;
+    grid-column: 3;
+}
+.sitio3{
+    grid-row: 5;
+    grid-column: 2;
+}
