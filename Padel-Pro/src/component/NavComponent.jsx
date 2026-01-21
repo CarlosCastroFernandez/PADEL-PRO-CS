@@ -13,6 +13,9 @@ const Nav= ()=> {
     const navigatLogIn=()=>{
       navigate("/log-in");
     }
+    const navigateRegister=()=>{
+      navigate("/log-in/registro");
+    }
 
     const showUserInNav = () => {
       if (userLogin !== null) {
@@ -65,7 +68,7 @@ const Nav= ()=> {
               ) : (
                 <>
                   <button className='button-menu1' onClick={navigatLogIn}>Iniciar Sesión</button>
-                  <button className='button-menu2'>Registrarse</button>
+                  <button className='button-menu2' onClick={navigateRegister}>Registrarse</button>
                 </>
               )
             }
