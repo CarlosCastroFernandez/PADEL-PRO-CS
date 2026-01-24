@@ -1,10 +1,18 @@
 
 import React, { useEffect, useState } from 'react'
-import "./HourComponent.css"
-const DateComponent = () => {
+import "./DateComponent.css";
+const DateComponent = (props) => {
 
 
 const [listHours, setListHours] = useState([]);
+const [selectDate, setSelectDate]=useState(null)
+
+const {classes,onChangeClase}=props
+
+const changeAll=(idx)=>{
+    setSelectDate(idx)
+    onChangeClase(classes.trainer,classes.day?classes.day:null,listHours[idx])
+}
 
    function generateHours() {
   const horas = [];
@@ -25,18 +33,18 @@ const [listHours, setListHours] = useState([]);
         generateHours();
     }, [])
     return (
-        <div className='container-hour'>
-            <div className='title-hour'>
-                <div className='container-number-title'>
+        <div className='container-date'>
+            <div className='title-date'>
+                <div className='container-number-title-date'>
                     <p>3</p>
                 </div>
                 <h3>ELIGE HORARIO</h3>
             </div>
-            <div className='container-data-hour'>
+            <div className='container-data-date'>
                 <p className='fecha'>Horarios disponibles</p>
-                <div className='container-div-hour'>
+                <div className='container-div-date'>
                     {listHours.map((hour, idx) => (
-                        <div key={idx}>
+                        <div className={`caja-date ${selectDate===idx?"select":""}`} key={idx} onClick={()=>changeAll(idx)}>
                             <p>{hour}</p>
                             
 

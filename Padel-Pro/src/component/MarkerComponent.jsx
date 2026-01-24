@@ -1,4 +1,4 @@
-import React, {  } from 'react'
+import React, { useState } from 'react'
 import "./MarkerComponent.css";
 import TrainerComponent from './TrainerComponent';
 import HourComponent from './HourComponent';
@@ -6,8 +6,22 @@ import DateComponent from './DateComponent';
 import ReservedComponent from './ReservedComponent';
 
  const Marker=()=> {
+  const [clase,setClase]=useState({});
+  const cambioClase=(trainer,day,hour,alumno)=>{
+    setClase({
+      ...clase,
+      trainer:trainer?trainer:null,
+      day:day,
+      hour:hour,
+      alumno:alumno?alumno.id:null
+    })
+
+    
+  }
     return (
+   
       <>
+         {console.log(clase)};
         <main className='main-marker'>
           <section className='marker-section'>
             <div className='container1-marker'>
@@ -37,8 +51,8 @@ import ReservedComponent from './ReservedComponent';
                 </div>
 
                 <div className='container-text-marker'>
-                  <p className="marker-number">12+</p>
-                  <p className="marker-label">Profesores</p>
+                  <p className="marker-number">500+</p>
+                  <p className="marker-label">Clases/Mes</p>
                 </div>
               </div>
               <div className='container-marker-grid'>
@@ -47,8 +61,8 @@ import ReservedComponent from './ReservedComponent';
                 </div>
 
                 <div className='container-text-marker'>
-                  <p className="marker-number">12+</p>
-                  <p className="marker-label">Profesores</p>
+                  <p className="marker-number">98%</p>
+                  <p className="marker-label">Satisfacción</p>
                 </div>
               </div>
             </div>
@@ -62,17 +76,17 @@ import ReservedComponent from './ReservedComponent';
             </div>
           </section>
           <section className='section-trainers'>
-            <TrainerComponent></TrainerComponent>
+            <TrainerComponent  classes={clase} onChangeClase={cambioClase}></TrainerComponent>
           
           </section>
           <section className='section-hours'> 
-          <HourComponent></HourComponent>
+          <HourComponent classes={clase} onChangeClase={cambioClase} ></HourComponent>
           </section>
           <section style={{marginBottom:"40px"}}>
-            <DateComponent></DateComponent>
+            <DateComponent classes={clase} onChangeClase={cambioClase} ></DateComponent>
           </section>
           <section style={{width:"76%",margin:"0 auto", paddingBottom:"30px"}}>
-            <ReservedComponent></ReservedComponent>
+            <ReservedComponent classes={clase}></ReservedComponent>
           </section>
         </main>
 

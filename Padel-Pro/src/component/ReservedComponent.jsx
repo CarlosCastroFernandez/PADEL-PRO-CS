@@ -1,19 +1,35 @@
 import React from 'react'
 import "./ReservedComponent.css"
-const ReservedComponent = () => {
+const ReservedComponent = (props) => {
+
+    const { classes }=props;
+
     return (
         <div className='container-resume'>
             <h4 style={{color:"white", fontSize:"20px"}}>RESUMEN DE RESERVA</h4>
             <div className='container-data'>
                 <div className='container-data2'>
-                    <div>
-                        Sin Profesor
+                    <div className={`cajita-resume ${classes.trainer?"select":""}`}>
+                        {classes.trainer?(
+                            `${classes.trainer.name}`
+                        ):
+                        "Sin profesor"
+                        }
+                       
                     </div>
-                    <div>
-                        Sin Fecha
+                    <div className={`cajita-resume ${classes.day?"select":""}`}>
+                        {classes.day?(
+                            `${classes.day.numero} / ${classes.day.nombre}`
+                        ):
+                        "Sin fecha"
+                        }
                     </div>
-                    <div>
-                        Sin Hora
+                    <div className={`cajita-resume ${classes.hour?"select":""}`}>
+                       {classes.hour?(
+                            `${classes.hour}`
+                        ):
+                        "Sin hora"
+                        }
                     </div>
                     
                 </div>

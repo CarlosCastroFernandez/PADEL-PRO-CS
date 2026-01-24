@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import "./TrainerComponent.css";
 import CardTrainerComponent from './CardTrainerComponent';
-const TrainerComponent = () => {
+const TrainerComponent = (props) => {
     const [listTrainer, setListTrainer] = useState([])
+    const [selectTrainer, setSelectTrainer]=useState(null);
+    const {classes , onChangeClase}=props;
+    const changeAll=(trainer)=>{
+        setSelectTrainer(trainer.id)
+        onChangeClase(trainer,classes.day?classes.day:null,classes.hour?classes.hour:null);
+    }
     const loadListTrainer = () => {
         let list = [
-            {
+            {   id:1,
                 name: "carlos",
                 sexo: "hombre",
                 description: "Mejor entrenador"
             },
             {
+                id:2,
                 name: "pepe",
                 sexo: "hombre",
                 description: "Mejor entrenador"
@@ -34,8 +41,8 @@ const TrainerComponent = () => {
                 </div>
                 <div className='list-trainer'>
                     {
-                        listTrainer.map((trainer, idx) => (
-                            <CardTrainerComponent className="caja-trainer" key={idx} trainer={trainer}></CardTrainerComponent>
+                        listTrainer.map((trainer) => (
+                            <CardTrainerComponent onChangeClase={onChangeClase} className="caja-trainer" key={trainer.id} seleccionado={selectTrainer === trainer.id} trainer={trainer} onSelect={()=>changeAll(trainer)}></CardTrainerComponent>
                         ))
                     }
                 </div>

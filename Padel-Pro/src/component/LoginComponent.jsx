@@ -10,9 +10,14 @@ const LoginComponent = () => {
     }
     return (
         <main className='main-login'>
-            <div>
-                <img onClick={navigateHome} style={{ width: "100px" }} src={atrasImg} alt="no se ve" />
-            </div>
+             <div className="back-button">
+          <img
+            onClick={navigateHome}
+            style={{ width: "30px", cursor: "pointer" }}
+            src={atrasImg}
+            alt="volver"
+          />
+        </div>
 
             <div className='container-login'>
                 <div className='titulo-login'>

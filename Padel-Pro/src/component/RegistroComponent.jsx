@@ -9,12 +9,17 @@ const RegistroComponent = () => {
     navigate("/")
   }
   return (
-    <main className='main-login'>
-      <div>
-        <img onClick={navigateHome} style={{ width: "100px" }} src={atrasImg} alt="no se ve" />
-      </div>
-      <div className='container-login'>
-        <div className='titulo-login'>
+    <main className='main-register'>
+     <div className="back-button">
+  <img
+    onClick={navigateHome}
+    style={{ width: "30px", cursor: "pointer" }}
+    src={atrasImg}
+    alt="volver"
+  />
+</div>
+      <div className='container-register'>
+        <div className='titulo-register'>
           <h1>PADEL<span>PRO</span></h1>
           <h4>CREAR CUENTA</h4>
           <p>Regístrate para empezar a reservar clases</p>
@@ -26,7 +31,7 @@ const RegistroComponent = () => {
         <label htmlFor="">Contraseña</label>
         <input type="password" placeholder='      Escribe Contraseña...' />
         <button>Crear Cuenta</button>
-        <p className='paragraph-footer'>Ya tienes cuenta? <Link className='link' to="/log-in">Inicia Sesión</Link></p>
+        <p className='paragraph-footer-register'>Ya tienes cuenta? <Link className='link' to="/log-in">Inicia Sesión</Link></p>
 
 
       </div>

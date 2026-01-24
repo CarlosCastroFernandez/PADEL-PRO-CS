@@ -3,7 +3,7 @@ import "./CardTrainerComponent.css"
 import hombrePadel from "../img/hombre-padel.png"
 import mujerPadel from "../img/mujer-padel.png"
 const CardTrainerComponent = (props) => {
-    const { trainer, idx } = props
+    const { trainer, seleccionado, onSelect } = props
     const [exp, setExp] = useState(1);
 
 
@@ -14,7 +14,7 @@ const CardTrainerComponent = (props) => {
     return (
         <>
 
-            <div className='caja-trainer'>
+            <div className={`caja-trainer ${seleccionado?"select":""}`} onClick={()=>onSelect(trainer)}>
                 <div>
                     <img src={hombrePadel} alt="" />
                     <p className='name-title'>{trainer.name}</p>

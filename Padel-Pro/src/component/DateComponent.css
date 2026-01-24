@@ -1,4 +1,4 @@
-.container-hour{
+.container-date{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -8,7 +8,7 @@
     width: 100%;
     
 }
-.title-hour{
+.title-date{
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -18,20 +18,20 @@
     
   
 }
-.title-hour h3{
+.title-date h3{
     font-size: x-large;
 }
 
-.caja-days{
+.caja-date{
       background: hsl(var(--box-hour));
     width: 150px;
     border-radius: 20px;
     text-align: center;
-    cursor: pointer;
     color: hsl(var(--normal-letter));
+    cursor: pointer;
 }
-.caja-days.select{
-         background: hsl(var(--box-hour));
+.caja-date.select{
+           background: hsl(var(--box-hour));
     width: 150px;
     border-radius: 20px;
     text-align: center;
@@ -40,7 +40,7 @@
     border: 1px solid hsl(var(--primary));
 
 }
-.title-hour .container-number-title{
+.title-date .container-number-title-date{
     border: 1px solid hsl(var(--primary));
     width: 40px;
     height: 40px;
@@ -55,7 +55,7 @@
     font-weight: bold;
     
 }
-.container-data-hour{
+.container-data-date{
     background: var(--gradient-card);
     display: flex;
     flex-direction: column;
@@ -69,7 +69,7 @@
    ;
 
 }
-.container-div-hour{
+.container-div-date{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,13 +79,13 @@
   flex-wrap: wrap;
 }
 
-.container-data-hour .fecha{
+.container-data-date .fecha{
      color: hsl(var(--normal-letter));
 }
-.container-div-hour div .number{
+.container-div-date div .number{
     color: white;
     font-size: 25px;
 }
-.container-div-hour {
+.container-div-date {
     color: hsl(var(--normal-letter));
 }

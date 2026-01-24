@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import "./HourComponent.css"
 
-const HourComponent = () => {
+const HourComponent = (props) => {
     const [anio, setAnio] = useState(undefined);
     const [mes, setMes] = useState(undefined);
     const [listDay, setListDay] = useState([]);
+    const [selectDay,setSelectDay]=useState(null);
+    const { onChangeClase, classes}=props;
+
+       const changeAll=(idx)=>{
+        setSelectDay(idx)
+        onChangeClase(classes.trainer,listDay[idx],classes.hour?classes.hour:null);
+    }
 
     const generateDays = () => {
         const diasSemana = [];
@@ -44,7 +51,7 @@ const HourComponent = () => {
                 <p className='fecha'>{mes} {anio}</p>
                 <div className='container-div-hour'>
                     {listDay.map((day, idx) => (
-                        <div key={idx}>
+                        <div className={`caja-days ${selectDay===idx?"select":""}`}onClick={()=>changeAll(idx)} key={idx}>
                             <p>{day.nombre}</p>
                             <p className='number'>{day.numero}</p>
 
