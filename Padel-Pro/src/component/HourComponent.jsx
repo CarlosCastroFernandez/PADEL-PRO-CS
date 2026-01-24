@@ -20,7 +20,7 @@ const HourComponent = (props) => {
             fecha.setDate(fecha.getDate() + i);
 
             const numeroDia = fecha.getDate();
-            const nombreDia = fecha.toLocaleDateString('es-ES', { weekday: 'long' });
+            const nombreDia = fecha.toLocaleDateString('es-ES', { weekday: 'long' }).slice(0,3);
 
             diasSemana.push({
                 numero: numeroDia,
