@@ -3,7 +3,7 @@ import { claseContext } from './Context'
 
 const ProviderComponent = (props) => {
     const { children }=props
-    const [userLogin,setUserLogin]=useState({})
+    const [userLogin,setUserLogin]=useState(undefined)
     const changeUser=(nuevoUser)=>{
         setUserLogin(nuevoUser)
     }

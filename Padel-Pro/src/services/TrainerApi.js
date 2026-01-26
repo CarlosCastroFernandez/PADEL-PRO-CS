@@ -1,0 +1,61 @@
+export const createTrainer=async (email,password,name,lastName)=>{
+    try{
+    const result= await fetch("http://localhost:3000/trainer/createTrainer",{
+        method:"POST",
+        headers:{
+            ["Content-Type"]:"application/json"
+        },
+        body: JSON.stringify({
+            name:name,
+            lastName:lastName,
+            email:email,
+            password:password
+        })
+    });
+
+    const res=await result.json();
+
+    if (res!==null && res.status==="SUCCESS"){
+        console.log(JSON.stringify(res.data))
+        return res.data;
+
+    }
+
+    }catch(e){
+        console.log("MAL")
+        return null;
+    }
+    
+}
+export const findTrainerByEmail=async (email,password)=>{
+    try{
+    const result= await fetch("http://localhost:3000/trainer/findTrainerByEmail",{
+        method:"POST",
+        headers:{
+            ["Content-Type"]:"application/json"
+        },
+        body: JSON.stringify({
+            email:email,
+            password:password
+        })
+    });
+
+    const res=await result.json();
+
+    if (res!==null && res.status==="SUCCESS"){
+        console.log(JSON.stringify(res.data))
+        return res.data;
+
+    }else{
+        return undefined
+    }
+
+    }catch(e){
+        console.log("MAL")
+        return undefined;
+    }
+    
+}
+
+
+
