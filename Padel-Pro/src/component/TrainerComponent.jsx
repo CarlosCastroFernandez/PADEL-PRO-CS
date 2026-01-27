@@ -18,7 +18,7 @@ const TrainerComponent = (props) => {
                 description: "Mejor entrenador"
             },
             {
-                id:2,
+                id:"6979342232e1c58febb88e9e",
                 name: "pepe",
                 sexo: "hombre",
                 description: "Mejor entrenador"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import "./MarkerComponent.css";
 import TrainerComponent from './TrainerComponent';
 import HourComponent from './HourComponent';
@@ -9,6 +9,7 @@ import { hourAvaliable } from '../services/ClassApi';
  const Marker=()=> {
   const [clase,setClase]=useState({});
   const [listaHour,setListaHour]=useState([])
+  const prevTrainerId = useRef(null);
 
 
   const cambioClase=async (trainer,day,hour,alumno)=>{
@@ -23,11 +24,17 @@ import { hourAvaliable } from '../services/ClassApi';
   
   }
   const listaValidaHour=async ()=>{
+
      if (clase?.trainer?.id!==undefined){
-        console.log("HOLAAA")
+      if(clase.trainer.id!==prevTrainerId.current){
+        prevTrainerId.current=clase.trainer.id
+         console.log("HOLAAA")
+        
         const listaHourValaiable=await hourAvaliable(clase.trainer.id)
         setListaHour(listaHourValaiable)
         console.log("lista de horas validas "+listaHour)
+      }
+       
       }
   }
   useEffect(()=>{
