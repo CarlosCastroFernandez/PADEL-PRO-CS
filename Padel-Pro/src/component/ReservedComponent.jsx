@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "./ReservedComponent.css"
+import { useNavigate } from 'react-router-dom';
+import { claseContext } from './Context';
 const ReservedComponent = (props) => {
-
+     const { userLogin , changeUser } = useContext(claseContext);
     const { classes }=props;
+      const navigate = useNavigate();
 
     return (
         <div className='container-resume'>
@@ -33,7 +36,14 @@ const ReservedComponent = (props) => {
                     </div>
                     
                 </div>
-                <button>Iniciar Sesion Para Reservar</button>
+                {
+                    userLogin!==undefined?(
+                        <button onClick={()=>""}>Reservar</button>
+                    ):(
+                         <button onClick={()=>navigate("/log-in")}>Iniciar Sesion Para Reservar</button>
+                    )
+                }
+               
             </div>
         </div>
     )

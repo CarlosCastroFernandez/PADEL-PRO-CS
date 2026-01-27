@@ -44,7 +44,7 @@ const changeAll=(idx)=>{
                 <p className='fecha'>Horarios disponibles</p>
                 <div className='container-div-date'>
                     {listHours.map((hour, idx) => (
-                        <div className={`caja-date ${selectDate===idx?"select":""}`} key={idx} onClick={()=>changeAll(idx)}>
+                        <div style={{pointerEvents:"none",opacity:"0.2"}} className={`caja-date ${selectDate===idx?"select":""}`} key={idx} onClick={()=>changeAll(idx)}>
                             <p>{hour}</p>
                             
 
