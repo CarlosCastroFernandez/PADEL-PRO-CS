@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./MarkerComponent.css";
 import TrainerComponent from './TrainerComponent';
 import HourComponent from './HourComponent';
 import DateComponent from './DateComponent';
 import ReservedComponent from './ReservedComponent';
+import { hourAvaliable } from '../services/ClassApi';
 
  const Marker=()=> {
   const [clase,setClase]=useState({});
-  const cambioClase=(trainer,day,hour,alumno)=>{
+  const [listaHour,setListaHour]=useState([])
+
+
+  const cambioClase=async (trainer,day,hour,alumno)=>{
     setClase({
       ...clase,
       trainer:trainer?trainer:null,
@@ -15,9 +19,21 @@ import ReservedComponent from './ReservedComponent';
       hour:hour,
       alumno:alumno?alumno.id:null
     })
-
     
+  
   }
+  const listaValidaHour=async ()=>{
+     if (clase?.trainer?.id!==undefined){
+        console.log("HOLAAA")
+        const listaHourValaiable=await hourAvaliable(clase.trainer.id)
+        setListaHour(listaHourValaiable)
+        console.log("lista de horas validas "+listaHour)
+      }
+  }
+  useEffect(()=>{
+    listaValidaHour()
+  },[clase])
+  
     return (
    
       <>
@@ -76,7 +92,7 @@ import ReservedComponent from './ReservedComponent';
             </div>
           </section>
           <section className='section-trainers'>
-            <TrainerComponent  classes={clase} onChangeClase={cambioClase}></TrainerComponent>
+            <TrainerComponent  classes={clase} onChangeClase={cambioClase} ></TrainerComponent>
           
           </section>
           <section className='section-hours'> 

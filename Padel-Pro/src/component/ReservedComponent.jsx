@@ -11,7 +11,7 @@ const ReservedComponent = (props) => {
                 <div className='container-data2'>
                     <div className={`cajita-resume ${classes.trainer?"select":""}`}>
                         {classes.trainer?(
-                            `${classes.trainer.name}`
+                            `Profesor: ${classes.trainer.name}`
                         ):
                         "Sin profesor"
                         }

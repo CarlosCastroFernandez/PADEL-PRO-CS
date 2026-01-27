@@ -4,14 +4,15 @@ import CardTrainerComponent from './CardTrainerComponent';
 const TrainerComponent = (props) => {
     const [listTrainer, setListTrainer] = useState([])
     const [selectTrainer, setSelectTrainer]=useState(null);
-    const {classes , onChangeClase}=props;
+    const {classes , onChangeClase }=props;
     const changeAll=(trainer)=>{
         setSelectTrainer(trainer.id)
         onChangeClase(trainer,classes.day?classes.day:null,classes.hour?classes.hour:null);
+
     }
     const loadListTrainer = () => {
         let list = [
-            {   id:1,
+            {   id:"6978f8eb5e6c9327e645b25c",
                 name: "carlos",
                 sexo: "hombre",
                 description: "Mejor entrenador"
