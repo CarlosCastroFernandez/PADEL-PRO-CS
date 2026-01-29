@@ -16,7 +16,7 @@ import { hourAvaliable } from '../services/ClassApi';
     setClase({
       ...clase,
       trainer:trainer?trainer:null,
-      day:day,
+      day:day?day:null,
       hour:hour,
       alumno:alumno?alumno.id:null
     })

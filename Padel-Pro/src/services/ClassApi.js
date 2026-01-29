@@ -21,3 +21,57 @@ export const hourAvaliable=async (id)=>{
     }
     
 }
+export const hourAvaliableDate=async (date,trainerId)=>{
+    console.log("AQUI EL DATE: "+date)
+    try{
+    const result= await fetch("http://localhost:3000/class/getAllAvaliableDate/"+date+"/"+trainerId,{
+        method:"GET",
+        headers:{
+            ["Content-Type"]:"application/json"
+        }
+    });
+
+    const res=await result.json();
+
+    if (res!==null && res.status==="SUCCESS"){
+        console.log(JSON.stringify(res.data))
+        return res.data;
+
+    }
+
+    }catch(e){
+        console.log("MAL")
+        return null;
+    }
+    
+}
+export const createClass=async (date,trainerId,listStudent)=>{
+    try{
+        const newDate=new Date(date).toLocaleString();
+        console.log(newDate)
+    const result= await fetch("http://localhost:3000/class/createClass",{
+        method:"POST",
+        headers:{
+            ["Content-Type"]:"application/json"
+        },
+            body: JSON.stringify({
+            date:date,
+            trainer:trainerId,
+            students:listStudent
+        })
+    });
+
+    const res=await result.json();
+
+    if (res!==null && res.status==="SUCCESS"){
+        console.log(JSON.stringify(res.data))
+        return res.data;
+
+    }
+
+    }catch(e){
+        console.log("MAL")
+        return null;
+    }
+    
+}

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import "./ReservedComponent.css"
 import { useNavigate } from 'react-router-dom';
 import { claseContext } from './Context';
+import { createClass } from '../services/ClassApi';
 const ReservedComponent = (props) => {
      const { userLogin , changeUser } = useContext(claseContext);
     const { classes }=props;
@@ -38,7 +39,7 @@ const ReservedComponent = (props) => {
                 </div>
                 {
                     userLogin!==undefined?(
-                        <button onClick={()=>""}>Reservar</button>
+                        <button onClick={async ()=>await createClass(classes.trainer.id,new Date().getFullYear()+"-"+classes.day.mes+"-"+classes.day.numero,classes.students)}>Reservar</button>
                     ):(
                          <button onClick={()=>navigate("/log-in")}>Iniciar Sesion Para Reservar</button>
                     )
