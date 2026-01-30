@@ -25,12 +25,12 @@ import { hourAvaliable } from '../services/ClassApi';
   }
   const listaValidaHour=async ()=>{
 
-     if (clase?.trainer?.id!==undefined){
-      if(clase.trainer.id!==prevTrainerId.current){
-        prevTrainerId.current=clase.trainer.id
+     if (clase?.trainer?._id!==undefined){
+      if(clase.trainer._id!==prevTrainerId.current){
+        prevTrainerId.current=clase.trainer._id
          console.log("HOLAAA")
         
-        const listaHourValaiable=await hourAvaliable(clase.trainer.id)
+        const listaHourValaiable=await hourAvaliable(clase.trainer._id)
         setListaHour(listaHourValaiable)
         console.log("lista de horas validas "+listaHour)
       }

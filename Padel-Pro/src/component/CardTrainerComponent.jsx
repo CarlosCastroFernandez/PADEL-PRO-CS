@@ -16,8 +16,8 @@ const CardTrainerComponent = (props) => {
 
             <div className={`caja-trainer ${seleccionado?"select":""}`} onClick={()=>onSelect(trainer)}>
                 <div>
-                    <img src={hombrePadel} alt="" />
-                    <p className='name-title'>{trainer.name}</p>
+                    <img src={trainer.sex==="h"?hombrePadel:mujerPadel} alt="" />
+                    <p className='name-title'>{trainer.name +" "+ trainer.lastName}</p>
                     <p className='description'>{trainer.description}</p>
                     
                 </div>

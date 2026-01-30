@@ -38,7 +38,7 @@ const Nav = () => {
             <>
               <div style={{display:"flex",justifyContent:"center",alignItems:"center", gap:"20px"}}>
                 <h5>{nameResult[0] + " " + nameResult[1]}</h5>
-                <button className='button-menu2' >Ver Reservas</button>
+                <button className='button-menu2' onClick={()=>navigate("/records")}>Ver Reservas</button>
                 <button onClick={()=>changeUser(undefined)} className='button-menu1' >Log-Out</button>
               </div>
 

@@ -47,9 +47,6 @@ const LoginComponent = () => {
         return;
         }
         
-       
-       
-       
     }
 
     useEffect(()=>{

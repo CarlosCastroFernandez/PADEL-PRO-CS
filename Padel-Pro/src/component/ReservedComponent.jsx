@@ -7,7 +7,7 @@ const ReservedComponent = (props) => {
      const { userLogin , changeUser } = useContext(claseContext);
     const { classes }=props;
       const navigate = useNavigate();
-
+   console.log(classes.hour);
     return (
         <div className='container-resume'>
             <h4 style={{color:"white", fontSize:"20px"}}>RESUMEN DE RESERVA</h4>
@@ -35,11 +35,21 @@ const ReservedComponent = (props) => {
                         "Sin hora"
                         }
                     </div>
+                  
                     
                 </div>
+                  <span style={{fontSize:"20px"}} >
+                        {classes.trainer?(
+                            "PRECIO : "+classes.trainer.priceByClass+"€"
+                        ):
+                        ""
+                        }
+                       
+                    </span>
                 {
-                    userLogin!==undefined?(
-                        <button onClick={async ()=>await createClass(classes.trainer.id,new Date().getFullYear()+"-"+classes.day.mes+"-"+classes.day.numero,classes.students)}>Reservar</button>
+                    userLogin!==undefined&&userLogin.status==="user"?(
+                     
+                        <button style={(!classes.trainer||!classes.day||!classes.hour)?{pointerEvents: "none", opacity: "0.2"}:{}}  onClick={async ()=> await createClass(""+new Date().getFullYear()+"-"+classes.day.mes+"-"+classes.day.numero+"-"+classes.hour,classes.trainer.id,classes.students)}>Reservar</button>
                     ):(
                          <button onClick={()=>navigate("/log-in")}>Iniciar Sesion Para Reservar</button>
                     )

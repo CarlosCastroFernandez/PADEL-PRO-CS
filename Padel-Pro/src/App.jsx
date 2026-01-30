@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RegistroComponent from './component/RegistroComponent'
 import LoginComponent from './component/LoginComponent'
 import ProviderComponent from './component/ProviderComponent';
+import RecordsComponents from './component/RecordsComponents';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
               <Route index element={<LoginComponent />}></Route>
               <Route path='registro' element={<RegistroComponent />}></Route>
             </Route>
+            <Route path='/records' element={<RecordsComponents/>}></Route>
           </Routes>
         </BrowserRouter>
       </ProviderComponent>
