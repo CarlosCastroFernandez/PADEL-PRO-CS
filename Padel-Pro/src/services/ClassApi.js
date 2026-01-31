@@ -81,3 +81,52 @@ export const createClass=async (date,trainerId,listStudent)=>{
     }
     
 }
+
+export const classesByStudents=async (studentId)=>{
+
+    try{
+    const result= await fetch("http://localhost:3000/class/getAllClassByStudent/"+studentId,{
+        method:"GET",
+        headers:{
+            ["Content-Type"]:"application/json"
+        }
+    });
+
+    const res=await result.json();
+
+    if (res!==null && res.status==="SUCCESS"){
+        console.log(JSON.stringify(res.data))
+        return res.data;
+
+    }
+
+    }catch(e){
+        console.log("MAL")
+        return null;
+    }
+    
+}
+export const classesByTrainer=async (trainerId)=>{
+
+    try{
+    const result= await fetch("http://localhost:3000/class/getAllClassByTrainer/"+trainerId,{
+        method:"GET",
+        headers:{
+            ["Content-Type"]:"application/json"
+        }
+    });
+
+    const res=await result.json();
+
+    if (res!==null && res.status==="SUCCESS"){
+        console.log(JSON.stringify(res.data))
+        return res.data;
+
+    }
+
+    }catch(e){
+        console.log("MAL")
+        return null;
+    }
+    
+}

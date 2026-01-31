@@ -8,6 +8,7 @@ import RegistroComponent from './component/RegistroComponent'
 import LoginComponent from './component/LoginComponent'
 import ProviderComponent from './component/ProviderComponent';
 import RecordsComponents from './component/RecordsComponents';
+import PrivateRoute from './component/PrivateRouter';
 
 function App() {
 
@@ -18,12 +19,14 @@ function App() {
       <ProviderComponent>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<MainLayout />}></Route>
+             <Route path='/' element={<MainLayout />}></Route>
             <Route path='/log-in' element={<LoginLayout />}>
               <Route index element={<LoginComponent />}></Route>
               <Route path='registro' element={<RegistroComponent />}></Route>
             </Route>
-            <Route path='/records' element={<RecordsComponents/>}></Route>
+            <Route element={<PrivateRoute/>}>
+               <Route path="/records" element={<RecordsComponents />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </ProviderComponent>
