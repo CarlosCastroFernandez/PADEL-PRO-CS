@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react'
 import "./AdminComponent.css";
 import { getAllClasses } from '../services/ClassApi';
 import { createTrainer } from '../services/TrainerApi';
+import { createStudent } from '../services/StudentApi';
 const AdminComponent = () => {
     const [listClass, setListClass] = useState([]);
     const [openTrainerModal, setOpenTrainerModal] = useState(false);
-    const [trainer ,setTrainer]=useState({})
+    const [openPadeleroModal, setOpenPadeleroModal] = useState(false);
+    const [trainer, setTrainer] = useState({})
+    const [padelero, setPadelero] = useState({})
+    const [mapErrorTrainer, setMapErrorTrainer] = useState(new Map())
+    const [mapErrorPadelero, setMapErrorPadelero] = useState(new Map())
     const classes = async () => {
         let listClasses = await getAllClasses();
 
@@ -25,18 +30,94 @@ const AdminComponent = () => {
         }
     };
 
-    const handleTrainer=(prop,proValue)=>{
-        const newTrainer={
+    const checkTrainer = (newTrainer) => {
+        let mapError = new Map();
+        if (!newTrainer.email) {
+            mapError.set("email", "No puede ser un email vacío");
+        }
+        if (!newTrainer.name || newTrainer.name.length <= 3) {
+            mapError.set("name", (!newTrainer.name ? "No puede ser un nombre vacío" : newTrainer.name.length <= 3 ? "Mínimo 3 carácteres" : ""));
+        }
+        if (!newTrainer.lastName || newTrainer.lastName.length <= 3) {
+            mapError.set("lastName", (!newTrainer.lastName ? "No puede ser unos apellidos vacío" : newTrainer.lastName.length <= 3 ? "Mínimo 3 carácteres" : ""));
+        }
+        if (!newTrainer.password || newTrainer.password.length < 6) {
+            mapError.set("password", (!newTrainer.password ? "No puede ser contraseña vacía" : newTrainer.password.length <= 6 ? "Mínimo 6 carácteres" : ""));
+        }
+        if (!newTrainer.description) {
+            mapError.set("description", "No puede estar vacío la descripción")
+        }
+        if (!newTrainer.sex || newTrainer.sex.charAt(0).toLowerCase() !== 'h' && newTrainer.sex.charAt(0).toLowerCase() !== 'm') {
+            mapError.set("sex", !newTrainer.sex ? "No puede estar vacío este campo" : newTrainer.sex !== 'h' || newTrainer.sex !== 'm' ? "Porfavor escriba hombre o mujer" : "")
+        }
+        if (!newTrainer.priceByClass) {
+            mapError.set("priceByClass", "No puede estar vacío este campo")
+        }
+        if (!newTrainer.experienceYears) {
+            mapError.set("experienceYears", "No puede estar vacío este campo")
+        }
+        setMapErrorTrainer(mapError)
+        return mapError;
+
+    }
+    const checkPadelero = (newPadelero) => {
+        let mapError = new Map();
+        if (!newPadelero?.email) {
+            mapError.set("email", "No puede ser un email vacío");
+        }
+        if (!newPadelero?.name || newPadelero?.name?.length <= 3) {
+            mapError.set("name", (!newPadelero?.name ? "No puede ser un nombre vacío" : newPadelero?.name.length <= 3 ? "Mínimo 3 carácteres" : ""));
+        }
+        if (!newPadelero?.lastName || newPadeler?.lastName?.length <= 3) {
+            mapError.set("lastName", (!newPadelero?.lastName ? "No puede ser unos apellidos vacío" : newPadelero?.lastName?.length <= 3 ? "Mínimo 3 carácteres" : ""));
+        }
+        if (!newPadelero?.password || newPadelero?.password?.length < 6) {
+            mapError.set("password", (!newPadelero?.password ? "No puede ser contraseña vacía" : newPadelero?.password?.length <= 6 ? "Mínimo 6 carácteres" : ""));
+        }
+
+        setMapErrorPadelero(mapError)
+        return mapError;
+
+    }
+
+    const handleTrainer = (prop, proValue) => {
+        const newTrainer = {
             ...trainer,
-            [prop]:proValue
+            [prop]: proValue
         }
         setTrainer(newTrainer);
     }
 
-    const crearTrainer=async (trainerPadel)=>{
-        const newTrainer= await createTrainer(trainerPadel.email,trainerPadel.password,trainerPadel.name,trainerPadel.lastName,
-            trainerPadel.description,trainerPadel.priceByClass,trainerPadel.sex,trainerPadel.experienceYears
-        )
+    const crearTrainer = async (trainerPadel) => {
+
+        const mapErrorTrainer = checkTrainer(trainerPadel);
+        console.log("TAAMAÑOOOO" + mapErrorTrainer.size)
+        mapErrorTrainer.forEach(element => console.log(element))
+        if (mapErrorTrainer.size === 0) {
+            const newTrainer = await createTrainer(trainerPadel.email, trainerPadel.password, trainerPadel.name, trainerPadel.lastName,
+                trainerPadel.description, trainerPadel.priceByClass, trainerPadel.sex, trainerPadel.experienceYears
+            )
+       
+        }
+
+    }
+    const handlePadelero = (prop, proValue) => {
+        const newPadelero = {
+            ...padelero,
+            [prop]: proValue
+        }
+        setPadelero(newPadelero);
+    }
+    const crearPadelero = async (padeleroStudent) => {
+
+        const mapErrorPadelero = checkPadelero(padeleroStudent);
+        console.log("TAAMAÑOOOOPADELEROOOOO" + mapErrorPadelero.size)
+        mapErrorPadelero.forEach(element => console.log(element))
+        if (mapErrorPadelero.size === 0) {
+            const newPadelero = await createStudent(padeleroStudent.email,padeleroStudent.password,padeleroStudent.name,padeleroStudent.lastName)
+          
+        }
+
     }
 
     useEffect(() => {
@@ -84,9 +165,9 @@ const AdminComponent = () => {
             <section>
                 <div className='container-options'>
                     <button onClick={() => setOpenTrainerModal(true)}>+</button>
-                    <p>Nuevo Entrenador</p>
-                    <button>+</button>
-                    <p>Nuevo Padelero</p>
+                    <p onClick={() => setOpenTrainerModal(true)}>Nuevo Entrenador</p>
+                    <button onClick={() => setOpenPadeleroModal(true)}>+</button>
+                    <p onClick={() => setOpenPadeleroModal(true)}>Nuevo Padelero</p>
                 </div>
                 <hr />
                 {listClass.length > 0 && (
@@ -99,42 +180,42 @@ const AdminComponent = () => {
                                     const { hour } = formatDate(element.date)
 
                                     return (
-                                        <>
-                                            <div
-                                                className="content"
-                                                key={element._id}
-                                                style={{
-                                                    borderBottom: "1px solid hsl(var(--primary))",
-                                                    paddingBottom: "10px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                <h3>
-                                                    {element.trainer.name} {element.trainer.lastName}
-                                                </h3>
 
-                                                <p>HORA: {hour}:00</p>
+                                        <div
+                                            className="content"
+                                            key={element._id}
+                                            style={{
+                                                borderBottom: "1px solid hsl(var(--primary))",
+                                                paddingBottom: "10px",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            <h3>
+                                                {element.trainer.name} {element.trainer.lastName}
+                                            </h3>
 
-                                                {element.students.map((student) => (
-                                                    <div key={student._id} style={{ marginBottom: "10px" }}>
-                                                        <ul className='container-student'>
-                                                            <li style={{ listStyle: "none" }}>
-                                                                {student.name.toUpperCase()} {student.lastName.toUpperCase()}
-                                                            </li>
-                                                            <button>X</button>
-                                                            <button style={{ background: "hsl(var(--primary))" }}>O</button>
+                                            <p>HORA: {hour}:00</p>
 
-                                                        </ul>
-                                                    </div>
-                                                ))}
-                                                <div className='container-button'>
-                                                    <button style={{ margin: "0 auto" }}>Cancelar Clase</button>
-                                                    <button style={{ margin: "0 auto" }}>Añadir Alumno</button>
+                                            {element.students.map((student) => (
+                                                <div key={student._id} style={{ marginBottom: "10px" }}>
+                                                    <ul className='container-student'>
+                                                        <li style={{ listStyle: "none" }}>
+                                                            {student.name.toUpperCase()} {student.lastName.toUpperCase()}
+                                                        </li>
+                                                        <button>X</button>
+                                                        <button style={{ background: "hsl(var(--primary))" }}>O</button>
+
+                                                    </ul>
                                                 </div>
-
+                                            ))}
+                                            <div className='container-button'>
+                                                <button style={{ margin: "0 auto" }}>Cancelar Clase</button>
+                                                <button style={{ margin: "0 auto" }}>Añadir Alumno</button>
                                             </div>
 
-                                        </>
+                                        </div>
+
+
                                     )
                                 })}
                             </div>
@@ -155,19 +236,118 @@ const AdminComponent = () => {
                             </button>
                         </header>
 
-                        <form className="modal-body">
-                            <input onChange={(e)=>handleTrainer("name",e.target.value)} type="text" placeholder="Nombre" />
-                            <input onChange={(e)=>handleTrainer("lastName",e.target.value)} type="text" placeholder="Apellidos" />
-                            <input onChange={(e)=>handleTrainer("email",e.target.value)} type="email" placeholder="Email" />
-                            <input onChange={(e)=>handleTrainer("password",e.target.value)} type="password" placeholder="Contraseña" />
-                            <input onChange={(e)=>handleTrainer("description",e.target.value)} type="text" placeholder="Descripción" />
-                            <input onChange={(e)=>handleTrainer("priceByClass",e.target.value)} type="number" placeholder="Precio" />
-                            <input onChange={(e)=>handleTrainer("sex",e.target.value)} type="text" placeholder="Sexo (Escribe hombre o mujer)" />
-                            <input onChange={(e)=>handleTrainer("experienceYears",e.target.value)} type="number" placeholder="Años de experiencia" />
-                            
+                        <form className="modal-body" onSubmit={(e) => {
+                            e.preventDefault();
+                            crearTrainer(trainer)
+                        }
+                        }
+                        >
+
+
+                            {mapErrorTrainer.get("name") ? (
+                                <>
+                                    <input onChange={(e) => handleTrainer("name", e.target.value)} type="text" placeholder="Nombre" />
+                                    <label style={{ color: "red" }}>{mapErrorTrainer.get("name")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleTrainer("name", e.target.value)} type="text" placeholder="Nombre" />
+                                )
+
+
+                            }
+                            {mapErrorTrainer.get("lastName") ? (
+                                <>
+                                    <input onChange={(e) => handleTrainer("lastName", e.target.value)} type="text" placeholder="Apellidos" />
+                                    <label style={{ color: "red" }}>{mapErrorTrainer.get("lastName")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleTrainer("lastName", e.target.value)} type="text" placeholder="Apellidos" />
+                                )
+
+
+                            }
+                            {mapErrorTrainer.get("email") ? (
+                                <>
+                                    <input onChange={(e) => handleTrainer("email", e.target.value)} type="email" placeholder="Email" />
+                                    <label style={{ color: "red" }}>{mapErrorTrainer.get("email")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleTrainer("email", e.target.value)} type="email" placeholder="Email" />
+                                )
+
+
+                            }
+
+                            {mapErrorTrainer.get("password") ? (
+                                <>
+                                    <input onChange={(e) => handleTrainer("password", e.target.value)} type="password" placeholder="Contraseña" />
+                                    <label style={{ color: "red" }}>{mapErrorTrainer.get("password")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleTrainer("password", e.target.value)} type="password" placeholder="Contraseña" />
+                                )
+
+
+                            }
+                            {mapErrorTrainer.get("description") ? (
+                                <>
+                                    <input onChange={(e) => handleTrainer("description", e.target.value)} type="text" placeholder="Descripción" />
+                                    <label style={{ color: "red" }}>{mapErrorTrainer.get("description")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleTrainer("description", e.target.value)} type="text" placeholder="Descripción" />
+                                )
+
+
+                            }
+                            {mapErrorTrainer.get("priceByClass") ? (
+                                <>
+                                    <input onChange={(e) => handleTrainer("priceByClass", e.target.value)} type="number" placeholder="Precio" />
+                                    <label style={{ color: "red" }}>{mapErrorTrainer.get("priceByClass")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleTrainer("priceByClass", e.target.value)} type="number" placeholder="Precio" />
+                                )
+
+
+                            }
+                            {mapErrorTrainer.get("sex") ? (
+                                <>
+                                    <input onChange={(e) => handleTrainer("sex", e.target.value.charAt(0).toLowerCase())} type="text" placeholder="Sexo (Escribe hombre o mujer)" />
+                                    <label style={{ color: "red" }}>{mapErrorTrainer.get("sex")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleTrainer("sex", e.target.value.charAt(0).toLowerCase())} type="text" placeholder="Sexo (Escribe hombre o mujer)" />
+                                )
+
+
+                            }
+                            {mapErrorTrainer.get("experienceYears") ? (
+                                <>
+                                    <input onChange={(e) => handleTrainer("experienceYears", e.target.value)} type="number" placeholder="Años de experiencia" />
+
+
+                                    <label style={{ color: "red" }}>{mapErrorTrainer.get("experienceYears")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleTrainer("experienceYears", e.target.value)} type="number" placeholder="Años de experiencia" />
+
+
+                                )
+
+
+                            }
 
                             <div className="modal-footer">
-                                <button type="submit" onClick={createTrainer(trainer)}>Guardar</button>
+                                <button type="submit" >Guardar</button>
                                 <button
                                     type="button"
                                     onClick={() => setOpenTrainerModal(false)}
@@ -179,6 +359,100 @@ const AdminComponent = () => {
                     </div>
                 </div>
             )}
+            {openPadeleroModal && (
+                <div className="modal-backdrop">
+                    <div className="modal-window">
+                        <header className="modal-header">
+                            <h2>Nuevo Padelero</h2>
+                            <button
+                                className="close-modal"
+                                onClick={() => setOpenPadeleroModal(false)}
+                            >
+                                ✕
+                            </button>
+                        </header>
+
+                        <form
+                            className="modal-body"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                crearPadelero(padelero)
+                            }}
+                            
+                        >
+                             {mapErrorPadelero.get("name") ? (
+                                <>
+                                    <input onChange={(e) => handlePadelero("name", e.target.value)} type="text" placeholder="Nombre" />
+
+
+                                    <label style={{ color: "red" }}>{mapErrorPadelero.get("name")}</label>
+                                </>
+                            ) :
+                                (
+                                  <input onChange={(e) => handlePadelero("name", e.target.value)} type="text" placeholder="Nombre" />
+                                )
+
+
+                            }
+                               {mapErrorPadelero.get("lastName") ? (
+                                <>
+                                    <input onChange={(e) => handlePadelero("lastName", e.target.value)} type="text" placeholder="Apellidos" />
+
+
+                                    <label style={{ color: "red" }}>{mapErrorPadelero.get("lastName")}</label>
+                                </>
+                            ) :
+                                (
+                                  <input onChange={(e) => handlePadelero("lastName", e.target.value)} type="text" placeholder="Apellidos" />
+                                )
+
+
+                            }
+                          
+                             {mapErrorPadelero.get("email") ? (
+                                <>
+                                    <input onChange={(e) => handlePadelero("email", e.target.value)} type="text" placeholder="Email" />
+
+
+                                    <label style={{ color: "red" }}>{mapErrorPadelero.get("email")}</label>
+                                </>
+                            ) :
+                                (
+                                  <input onChange={(e) => handlePadelero("email", e.target.value)} type="text" placeholder="Email" />
+                                )
+
+
+                            }
+                           {mapErrorPadelero.get("password") ? (
+                                <>
+                                    <input onChange={(e) => handlePadelero("password", e.target.value)} type="text" placeholder="Contraseña" />
+
+
+                                    <label style={{ color: "red" }}>{mapErrorPadelero.get("password")}</label>
+                                </>
+                            ) :
+                                (
+                                  <input onChange={(e) => handlePadelero("password", e.target.value)} type="text" placeholder="Contraseña" />
+                                )
+
+
+                            }
+                           
+
+                            <div className="modal-footer">
+                                <button type="submit">Guardar</button>
+                                <button
+                                    type="button"
+                                    onClick={() => setOpenPadeleroModal(false)}
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
 
 
         </main>
