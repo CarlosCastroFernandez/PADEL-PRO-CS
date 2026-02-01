@@ -1,4 +1,4 @@
-export const createTrainer=async (email,password,name,lastName)=>{
+export const createTrainer=async (email,password,name,lastName,description,price,sex,experience)=>{
     try{
     const result= await fetch("http://localhost:3000/trainer/createTrainer",{
         method:"POST",
@@ -9,7 +9,11 @@ export const createTrainer=async (email,password,name,lastName)=>{
             name:name,
             lastName:lastName,
             email:email,
-            password:password
+            password:password,
+            description:description,
+            priceByClass:price,
+            sex:sex,
+            experienceYears:experience
         })
     });
 
