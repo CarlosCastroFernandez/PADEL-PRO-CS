@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./AdminComponent.css";
-import { getAllClasses } from '../services/ClassApi';
+import { createClass, deleteClassById, getAllClasses } from '../services/ClassApi';
 import { createTrainer } from '../services/TrainerApi';
 import { createStudent } from '../services/StudentApi';
 const AdminComponent = () => {
@@ -120,6 +120,28 @@ const AdminComponent = () => {
 
     }
 
+    const cancelClass=async (classId)=>{
+        let listaClasses=[...listClass]
+        let classDelete;
+        if (!classId){
+            classDelete=await deleteClassById(classId)
+        } 
+        if(!classDelete){
+        listaClasses=listaClasses.filter(element=>element._id!==classId);
+        setListClass(listaClasses);
+        }
+      
+    }
+    const addStudentInClass=async (date,trainerId,studentId)=>{
+        const fecha=new Date(date);
+        const fechaString=fecha.getFullYear()+"-"+fecha.getMonth()+"-"+fecha.getDate()+"-"+fecha.getHours();
+        let listIdStudent=[studentId];
+        console.log(fechaString)
+        console.log(listIdStudent)
+        console.log(trainerId)
+        //await createClass(fechaString,trainerId,studentId)
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             await classes();
@@ -209,8 +231,8 @@ const AdminComponent = () => {
                                                 </div>
                                             ))}
                                             <div className='container-button'>
-                                                <button style={{ margin: "0 auto" }}>Cancelar Clase</button>
-                                                <button style={{ margin: "0 auto" }}>Añadir Alumno</button>
+                                                <button style={{ margin: "0 auto" }} onClick={()=>cancelClass(element._id)}>Cancelar Clase</button>
+                                                <button style={{ margin: "0 auto" }}onClick={()=>addStudentInClass(element.date,element.trainer._id,"697f68b8baddbcc781ef7401")}>Añadir Alumno</button>
                                             </div>
 
                                         </div>
