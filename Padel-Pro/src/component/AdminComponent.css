@@ -9,6 +9,7 @@ main{
   align-items: center;
   flex-direction: column;
 }
+.se
 .section1-admin h1, .section1-admin p{
   color: hsl(var(--primary));
 }

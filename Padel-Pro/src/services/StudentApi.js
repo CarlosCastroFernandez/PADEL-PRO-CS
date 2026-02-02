@@ -56,6 +56,31 @@ export const findStudentByEmail=async (email,password)=>{
     }
     
 }
+export const getStudentByEmail=async (email)=>{
+    try{
+    const result= await fetch("http://localhost:3000/student/getStudentByEmail/"+email,{
+        method:"GET",
+        headers:{
+            ["Content-Type"]:"application/json"
+        }
+    });
+
+    const res=await result.json();
+
+    if (res!==null && res.status==="SUCCESS"){
+        console.log(JSON.stringify(res.data))
+        return res.data;
+
+    }else{
+        return undefined
+    }
+
+    }catch(e){
+        console.log("MAL")
+        return undefined;
+    }
+    
+}
 
 
 

@@ -30,7 +30,7 @@ const DateComponent = (props) => {
         }
 
 
-        for (let h = 16; h <= 20; h++) {
+        for (let h = 16; h <= 21; h++) {
             horas.push(`${h.toString().padStart(2, '0')}:00`);
         }
           
@@ -69,7 +69,7 @@ const DateComponent = (props) => {
                 <div className='container-div-date'>
                     {
                       
-                        (classes && classes.trainer && classes.day&&listHour.length===0) ? (
+                        (classes && classes.trainer && classes.day&&listHour?.length===0) ? (
                             listHours.map((hour, idx) => (
 
                                 <div className={`caja-date ${selectDate === idx ? "select" : ""}`} key={idx} onClick={() => changeAll(idx)}>

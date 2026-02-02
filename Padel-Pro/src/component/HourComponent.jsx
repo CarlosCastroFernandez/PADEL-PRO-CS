@@ -15,6 +15,7 @@ const HourComponent = (props) => {
         setSelectDay(idx)
         onChangeClase(classes.trainer, listDay[idx], classes.hour ? classes.hour : null);
         console.log("HOLAAAAAAAAAA" + JSON.stringify(classes.trainer))
+        console.log(listDay[idx])
         if (classes.trainer && listDay[idx]) {
             const listHours = await hourAvaliableDate("" + new Date().getFullYear() + "-" + listDay[idx].mes + "-" + listDay[idx].numero, classes.trainer._id)
             changeListHour(listHours);

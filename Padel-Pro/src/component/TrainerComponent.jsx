@@ -14,6 +14,7 @@ const TrainerComponent = (props) => {
         setSelectTrainer(trainer._id)
         onChangeClase(trainer, classes.day ? classes.day : null, classes.hour ? classes.hour : null);
         console.log("AQUIIIIIIITRAINERRR:"+ JSON.stringify(trainer))
+        console.log(classes.day)
         if (trainer && classes.day) {
              console.log("ENT>ROOOOO")
             const listHours = await hourAvaliableDate("" + new Date().getFullYear() + "-" + classes.day.mes + "-" + classes.day.numero, trainer._id)

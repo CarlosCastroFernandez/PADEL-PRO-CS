@@ -2,15 +2,23 @@ import React, { useEffect, useState } from 'react'
 import "./AdminComponent.css";
 import { createClass, deleteClassById, getAllClasses } from '../services/ClassApi';
 import { createTrainer } from '../services/TrainerApi';
-import { createStudent } from '../services/StudentApi';
+import atrasImg from "../img/aqua.png"
+import { createStudent, getStudentByEmail } from '../services/StudentApi';
+import { useNavigate } from 'react-router-dom';
 const AdminComponent = () => {
     const [listClass, setListClass] = useState([]);
     const [openTrainerModal, setOpenTrainerModal] = useState(false);
     const [openPadeleroModal, setOpenPadeleroModal] = useState(false);
+    const [openAddStudentModal, setOpenAddStudentModal] = useState(false)
     const [trainer, setTrainer] = useState({})
+    const [trainerId, setTrainerId] = useState("");
     const [padelero, setPadelero] = useState({})
+    const [addStudent, setAddStudent] = useState({})
+    const [classe, setClasse] = useState({})
+    const [questionStudent, setQuestionStudent] = useState(null)
     const [mapErrorTrainer, setMapErrorTrainer] = useState(new Map())
     const [mapErrorPadelero, setMapErrorPadelero] = useState(new Map())
+    const navigate=useNavigate();
     const classes = async () => {
         let listClasses = await getAllClasses();
 
@@ -97,7 +105,7 @@ const AdminComponent = () => {
             const newTrainer = await createTrainer(trainerPadel.email, trainerPadel.password, trainerPadel.name, trainerPadel.lastName,
                 trainerPadel.description, trainerPadel.priceByClass, trainerPadel.sex, trainerPadel.experienceYears
             )
-       
+
         }
 
     }
@@ -108,38 +116,73 @@ const AdminComponent = () => {
         }
         setPadelero(newPadelero);
     }
+
+    const checkAddStudent = (student) => {
+        let mapError = new Map();
+        if (!student?.email) {
+            mapError.set("email", "No puede ser un email vacío");
+        }
+        setMapErrorPadelero(mapError);
+        return mapError;
+
+    }
     const crearPadelero = async (padeleroStudent) => {
 
         const mapErrorPadelero = checkPadelero(padeleroStudent);
         console.log("TAAMAÑOOOOPADELEROOOOO" + mapErrorPadelero.size)
         mapErrorPadelero.forEach(element => console.log(element))
         if (mapErrorPadelero.size === 0) {
-            const newPadelero = await createStudent(padeleroStudent.email,padeleroStudent.password,padeleroStudent.name,padeleroStudent.lastName)
-          
+            const newPadelero = await createStudent(padeleroStudent.email, padeleroStudent.password, padeleroStudent.name, padeleroStudent.lastName)
+
         }
 
     }
 
-    const cancelClass=async (classId)=>{
-        let listaClasses=[...listClass]
+    const cancelClass = async (classId) => {
+        let listaClasses = [...listClass]
         let classDelete;
-        if (!classId){
-            classDelete=await deleteClassById(classId)
-        } 
-        if(!classDelete){
-        listaClasses=listaClasses.filter(element=>element._id!==classId);
-        setListClass(listaClasses);
+        if (classId) {
+            classDelete = await deleteClassById(classId)
         }
-      
+        if (classDelete) {
+            listaClasses = listaClasses.filter(element => element._id !== classId);
+            setListClass(listaClasses);
+        }
+
     }
-    const addStudentInClass=async (date,trainerId,studentId)=>{
-        const fecha=new Date(date);
-        const fechaString=fecha.getFullYear()+"-"+fecha.getMonth()+"-"+fecha.getDate()+"-"+fecha.getHours();
-        let listIdStudent=[studentId];
-        console.log(fechaString)
-        console.log(listIdStudent)
-        console.log(trainerId)
-        //await createClass(fechaString,trainerId,studentId)
+
+    const handleAddStudent = (prop, propValue) => {
+        let newAddStudent = {
+            ...addStudent,
+            [prop]: propValue
+        }
+        setAddStudent(newAddStudent);
+    }
+    const addStudentInClass = async (email, trainerId, date) => {
+        console.log(email, trainerId, date);
+        const mapError = checkAddStudent(addStudent)
+        setMapErrorPadelero(mapError);
+        if (mapError.size === 0) {
+            const fecha = new Date(date);
+            const fechaString = fecha.getFullYear() + "-" + fecha.getMonth() + "-" + fecha.getDate() + "-" + fecha.getHours();
+            const student = await getStudentByEmail(email);
+            console.log(student)
+            if (student) {
+                let listIdStudent = [student._id];
+                let data = await createClass(classe.date, trainerId, listIdStudent)
+                if (data === "NO EXITOSO") {
+                    setQuestionStudent(false);
+                } else {
+                    setQuestionStudent(true);
+                }
+
+            } else {
+                setQuestionStudent(false);
+            }
+
+        }
+
+
     }
 
     useEffect(() => {
@@ -175,13 +218,24 @@ const AdminComponent = () => {
     return (
         <main>
             <section className='section1-admin'>
-                <h1>PANEL DE CONTROL</h1>
-                <p>
-                    Este es su panel de control donde podrás cancelar clases, borrar
-                    padeleros de sus clases e incluso añadir padeleros a las clases
-                    siempre y cuando en una clase no haya 4 padeleros.
-                    ¡GRACIAS!, por confiar en PADEL<span>PRO</span>
-                </p>
+                 <div className="back-button">
+                    <img
+                        onClick={()=>navigate("/")}
+                        style={{ width: "30px", cursor: "pointer" }}
+                        src={atrasImg}
+                        alt="volver"
+                    />
+                </div>
+                <div>
+                    <h1 style={{textAlign:"center"}}>PANEL DE CONTROL</h1>
+                    <p style={{textAlign:"center",lineHeight:"30px"}}>
+                        Este es su panel de control donde podrás cancelar clases, borrar
+                        padeleros de sus clases <br />e incluso añadir padeleros a las clases
+                        siempre y cuando en una  clase<br /> no haya 4 padeleros.
+                        ¡GRACIAS!, por confiar en PADEL<span>PRO</span>
+                    </p>
+                </div>
+
             </section>
 
             <section>
@@ -231,8 +285,8 @@ const AdminComponent = () => {
                                                 </div>
                                             ))}
                                             <div className='container-button'>
-                                                <button style={{ margin: "0 auto" }} onClick={()=>cancelClass(element._id)}>Cancelar Clase</button>
-                                                <button style={{ margin: "0 auto" }}onClick={()=>addStudentInClass(element.date,element.trainer._id,"697f68b8baddbcc781ef7401")}>Añadir Alumno</button>
+                                                <button style={{ margin: "0 auto" }} onClick={() => cancelClass(element._id)}>Cancelar Clase</button>
+                                                <button style={{ margin: "0 auto" }} onClick={() => { setClasse(element); setTrainerId(element.trainer._id); setOpenAddStudentModal(true) }}>Añadir Alumno</button>
                                             </div>
 
                                         </div>
@@ -400,9 +454,9 @@ const AdminComponent = () => {
                                 e.preventDefault();
                                 crearPadelero(padelero)
                             }}
-                            
+
                         >
-                             {mapErrorPadelero.get("name") ? (
+                            {mapErrorPadelero.get("name") ? (
                                 <>
                                     <input onChange={(e) => handlePadelero("name", e.target.value)} type="text" placeholder="Nombre" />
 
@@ -411,12 +465,12 @@ const AdminComponent = () => {
                                 </>
                             ) :
                                 (
-                                  <input onChange={(e) => handlePadelero("name", e.target.value)} type="text" placeholder="Nombre" />
+                                    <input onChange={(e) => handlePadelero("name", e.target.value)} type="text" placeholder="Nombre" />
                                 )
 
 
                             }
-                               {mapErrorPadelero.get("lastName") ? (
+                            {mapErrorPadelero.get("lastName") ? (
                                 <>
                                     <input onChange={(e) => handlePadelero("lastName", e.target.value)} type="text" placeholder="Apellidos" />
 
@@ -425,13 +479,13 @@ const AdminComponent = () => {
                                 </>
                             ) :
                                 (
-                                  <input onChange={(e) => handlePadelero("lastName", e.target.value)} type="text" placeholder="Apellidos" />
+                                    <input onChange={(e) => handlePadelero("lastName", e.target.value)} type="text" placeholder="Apellidos" />
                                 )
 
 
                             }
-                          
-                             {mapErrorPadelero.get("email") ? (
+
+                            {mapErrorPadelero.get("email") ? (
                                 <>
                                     <input onChange={(e) => handlePadelero("email", e.target.value)} type="text" placeholder="Email" />
 
@@ -440,12 +494,12 @@ const AdminComponent = () => {
                                 </>
                             ) :
                                 (
-                                  <input onChange={(e) => handlePadelero("email", e.target.value)} type="text" placeholder="Email" />
+                                    <input onChange={(e) => handlePadelero("email", e.target.value)} type="text" placeholder="Email" />
                                 )
 
 
                             }
-                           {mapErrorPadelero.get("password") ? (
+                            {mapErrorPadelero.get("password") ? (
                                 <>
                                     <input onChange={(e) => handlePadelero("password", e.target.value)} type="text" placeholder="Contraseña" />
 
@@ -454,12 +508,12 @@ const AdminComponent = () => {
                                 </>
                             ) :
                                 (
-                                  <input onChange={(e) => handlePadelero("password", e.target.value)} type="text" placeholder="Contraseña" />
+                                    <input onChange={(e) => handlePadelero("password", e.target.value)} type="text" placeholder="Contraseña" />
                                 )
 
 
                             }
-                           
+
 
                             <div className="modal-footer">
                                 <button type="submit">Guardar</button>
@@ -474,6 +528,68 @@ const AdminComponent = () => {
                     </div>
                 </div>
             )}
+            {openAddStudentModal && (
+                <div className="modal-backdrop">
+                    <div className="modal-window">
+                        <header className="modal-header">
+                            <h2>Agregar Alumno a la clase</h2>
+                            <button
+                                className="close-modal"
+                                onClick={() => setOpenAddStudentModal(false)}
+                            >
+                                ✕
+                            </button>
+                        </header>
+
+                        <form
+                            className="modal-body"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+
+                                addStudentInClass(addStudent.email, trainerId, classe.date);
+                            }}
+
+                        >
+
+                            {mapErrorPadelero.get("email") ? (
+                                <>
+                                    <input onChange={(e) => handleAddStudent("email", e.target.value)} type="text" placeholder="Email" />
+
+
+                                    <label style={{ color: "red" }}>{mapErrorPadelero.get("email")}</label>
+                                </>
+                            ) :
+                                (
+                                    <input onChange={(e) => handleAddStudent("email", e.target.value)} type="text" placeholder="Email" />
+
+                                )
+
+
+                            }
+                            {
+                                questionStudent !== null && (
+
+                                    <label style={{ color: questionStudent ? "hsl(var(--primary))" : "red" }} htmlFor="">{questionStudent ? "Agregado extitosamente" : "No existe el usuario o ya tiene una clase a esta hora o incluso hay 4 padeleros ya"}</label>
+
+                                )
+                            }
+
+
+
+                            <div className="modal-footer">
+                                <button type="submit">Guardar</button>
+                                <button
+                                    type="button"
+                                    onClick={() => setOpenAddStudentModal(false)}
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
 
 
 

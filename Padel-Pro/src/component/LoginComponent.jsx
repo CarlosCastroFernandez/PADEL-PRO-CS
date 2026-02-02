@@ -5,6 +5,7 @@ import atrasImg from "../img/aqua.png"
 import { findStudentByEmail } from '../services/StudentApi'
 import { findTrainerByEmail } from '../services/TrainerApi'
 import { claseContext } from './Context'
+import { findAdminByEmail } from '../services/AdminApi'
 const LoginComponent = () => {
     const navigate=useNavigate();
     const location=useLocation();
@@ -44,6 +45,18 @@ const LoginComponent = () => {
    
         changeUser(userNorm)
        navigateHome()
+        return;
+        }
+        const userBBDTAdmin= await findAdminByEmail(email,password);
+        console.log(userBBDTAdmin)
+         if(userBBDTAdmin!==undefined){
+             const userNorm={
+            ...userBBDTAdmin,
+            status:"admin"
+        }
+   
+        changeUser(userNorm)
+        navigateHome()
         return;
         }
         

@@ -20,7 +20,7 @@ function App() {
       <ProviderComponent>
         <BrowserRouter>
           <Routes>
-             {/*<Route path='/' element={<MainLayout />}></Route>
+             <Route path='/' element={<MainLayout />}></Route>
             <Route path='/log-in' element={<LoginLayout />}>
               <Route index element={<LoginComponent />}></Route>
               <Route path='registro' element={<RegistroComponent />}></Route>
@@ -28,8 +28,8 @@ function App() {
             <Route element={<PrivateRoute/>}>
                <Route path="/records" element={<RecordsComponents />} />
                 <Route path="/admin-panel" element={<AdminComponent />} />
-            </Route>*/}
-             <Route path="/" element={<AdminComponent />} />
+            </Route>
+             <Route path="/admin" element={<AdminComponent />} />
           </Routes>
         </BrowserRouter>
       </ProviderComponent>
