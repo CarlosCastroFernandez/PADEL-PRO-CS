@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import "./AdminComponent.css";
-import { createClass, deleteClassById, getAllClasses } from '../services/ClassApi';
+import { createClass, deleteClassById, deleteStudentByClass, getAllClasses } from '../services/ClassApi';
 import { createTrainer } from '../services/TrainerApi';
 import atrasImg from "../img/aqua.png"
-import { createStudent, getStudentByEmail } from '../services/StudentApi';
+import { createStudent, getStudentByEmail, modifyStudent } from '../services/StudentApi';
 import { useNavigate } from 'react-router-dom';
 const AdminComponent = () => {
     const [listClass, setListClass] = useState([]);
     const [openTrainerModal, setOpenTrainerModal] = useState(false);
     const [openPadeleroModal, setOpenPadeleroModal] = useState(false);
     const [openAddStudentModal, setOpenAddStudentModal] = useState(false)
+    const [openModifyStudentModal, setOpenModifyStudentModal] = useState(false)
     const [trainer, setTrainer] = useState({})
     const [trainerId, setTrainerId] = useState("");
     const [padelero, setPadelero] = useState({})
     const [addStudent, setAddStudent] = useState({})
     const [classe, setClasse] = useState({})
+    const [modifyPlayer, setModifyPlayer]=useState({});
     const [questionStudent, setQuestionStudent] = useState(null)
     const [mapErrorTrainer, setMapErrorTrainer] = useState(new Map())
     const [mapErrorPadelero, setMapErrorPadelero] = useState(new Map())
-    const navigate=useNavigate();
+
+    const navigate = useNavigate();
     const classes = async () => {
         let listClasses = await getAllClasses();
 
@@ -174,6 +177,7 @@ const AdminComponent = () => {
                     setQuestionStudent(false);
                 } else {
                     setQuestionStudent(true);
+                    await classes();
                 }
 
             } else {
@@ -183,6 +187,41 @@ const AdminComponent = () => {
         }
 
 
+    }
+
+    const deleteStudentByClassId = async (idClass, studentId) => {
+        const classAfectada = await deleteStudentByClass(idClass, studentId);
+
+        if (classAfectada) {
+
+            await classes();
+        }
+    };
+
+    const handleModify=(prop,propValue)=>{
+        setModifyPlayer({
+            ...modifyPlayer,
+            [prop]:propValue
+        })
+        console.log(JSON.stringify(modifyPlayer))
+        
+        
+    }
+    const checkModifyPlayer=()=>{
+        if (modifyPlayer.name===""&&modifyPlayer.lastName===""){
+            return false
+        }else{
+            return true
+        }
+    }
+
+    const modifyPlayerBBD=async ()=>{
+        const result=checkModifyPlayer()
+        if (result){
+            await modifyStudent(modifyPlayer.name,modifyPlayer.lastName,modifyPlayer.id);
+            await classes();
+
+        }
     }
 
     useEffect(() => {
@@ -218,17 +257,17 @@ const AdminComponent = () => {
     return (
         <main>
             <section className='section1-admin'>
-                 <div className="back-button">
+                <div className="back-button">
                     <img
-                        onClick={()=>navigate("/")}
+                        onClick={() => navigate("/")}
                         style={{ width: "30px", cursor: "pointer" }}
                         src={atrasImg}
                         alt="volver"
                     />
                 </div>
                 <div>
-                    <h1 style={{textAlign:"center"}}>PANEL DE CONTROL</h1>
-                    <p style={{textAlign:"center",lineHeight:"30px"}}>
+                    <h1 style={{ textAlign: "center" }}>PANEL DE CONTROL</h1>
+                    <p style={{ textAlign: "center", lineHeight: "30px" }}>
                         Este es su panel de control donde podrás cancelar clases, borrar
                         padeleros de sus clases <br />e incluso añadir padeleros a las clases
                         siempre y cuando en una  clase<br /> no haya 4 padeleros.
@@ -278,8 +317,8 @@ const AdminComponent = () => {
                                                         <li style={{ listStyle: "none" }}>
                                                             {student.name.toUpperCase()} {student.lastName.toUpperCase()}
                                                         </li>
-                                                        <button>X</button>
-                                                        <button style={{ background: "hsl(var(--primary))" }}>O</button>
+                                                        <button onClick={() => deleteStudentByClassId(element._id, student._id)}> X</button>
+                                                        <button onClick={()=>{setModifyPlayer({name:student.name,lastName:student.lastName,id:student._id}); setOpenModifyStudentModal(true)}} style={{ background: "hsl(var(--primary))" }}>O</button>
 
                                                     </ul>
                                                 </div>
@@ -573,6 +612,67 @@ const AdminComponent = () => {
 
                                 )
                             }
+
+
+
+                            <div className="modal-footer">
+                                <button type="submit">Guardar</button>
+                                <button
+                                    type="button"
+                                    onClick={() => setOpenAddStudentModal(false)}
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {openModifyStudentModal && (
+                <div className="modal-backdrop">
+                    <div className="modal-window">
+                        <header className="modal-header">
+                            <h2 style={{textAlign:"center"}}>Modificar el apellido o el nombre del  padelero</h2>
+                            <button
+                                className="close-modal"
+                                onClick={() => setOpenModifyStudentModal(false)}
+                            >
+                                ✕
+                            </button>
+                        </header>
+
+                        <form
+                            className="modal-body"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+
+                               modifyPlayerBBD();
+                            }}
+
+                        >
+
+                            <input value={modifyPlayer.name} onChange={(e) => handleModify("name", e.target.value)} type="text" placeholder="Nombre Padelero" />
+
+                            <input value={modifyPlayer.lastName} onChange={(e) => handleModify("lastName", e.target.value)} type="text" placeholder="Apellidos" />
+                            {modifyPlayer.name===""&&modifyPlayer.lastName==="" &&(
+
+                                <label style={{ color: "red" }}>No pueden ser vacíos</label>
+                            )
+                            
+                            
+                            
+                            }
+
+                            
+
+
+
+
+
+                            
+
+
+
 
 
 

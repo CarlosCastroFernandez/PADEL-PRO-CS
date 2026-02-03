@@ -83,4 +83,40 @@ export const getStudentByEmail=async (email)=>{
 }
 
 
+export const modifyStudent=async (name,lastName,id)=>{
+    console.log("ID: "+id);
+    try{
+    const result= await fetch("http://localhost:3000/student/modifyStudentById",{
+        method:"POST",
+        headers:{
+            ["Content-Type"]:"application/json"
+        },
+        body:JSON.stringify({
+            name:name,
+            lastName:lastName,
+            studentId:id
+        })
+    });
+
+    const res=await result.json();
+
+    if (res!==null && res.status==="SUCCESS"){
+        console.log(JSON.stringify(res.data))
+        return res.data;
+
+    }else{
+        return res.message;
+    }
+
+    }catch(e){
+        console.log("MAL")
+        return undefined;
+    }
+    
+}
+
+
+
+
+
 

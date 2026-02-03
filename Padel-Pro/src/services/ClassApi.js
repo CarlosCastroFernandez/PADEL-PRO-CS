@@ -183,3 +183,28 @@ export const deleteClassById = async (classId) => {
     return null;
   }
 };
+export const deleteStudentByClass = async (classId,studentId) => {
+  try {
+    const result = await fetch(
+      "http://localhost:3000/class/deleteStudentByClass/" + classId+"/"+studentId,
+      {
+        method: "DELETE",
+        headers: {
+          ["Content-Type"]: "application/json",
+        },
+      },
+    );
+
+    const res = await result.json();
+
+    if (res !== null && res.status === "SUCCESS") {
+      console.log(JSON.stringify(res.data));
+      return res.data;
+    }else if(res!==null && res.status==="ERROR"){
+      return res.message;
+    }
+  } catch (e) {
+    console.log("MAL");
+    return null;
+  }
+};
