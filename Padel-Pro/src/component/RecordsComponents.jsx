@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router-dom';
 const RecordsComponents = () => {
     const [listClass, setListClass] = useState([]);
     const { userLogin } = useContext(claseContext);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const classByStudent = async () => {
         let idMoment = userLogin._id;
-        console.log("IDDIDIDID "+idMoment)
+        console.log("IDDIDIDID " + idMoment)
         let listClassByStudent;
         if (userLogin && userLogin.status === "user") {
             listClassByStudent = await classesByStudents(idMoment);
@@ -71,7 +71,7 @@ const RecordsComponents = () => {
             <section className='section-1-records'>
                 <div className="back-button">
                     <img
-                        onClick={()=>navigate("/")}
+                        onClick={() => navigate("/")}
                         style={{ width: "30px", cursor: "pointer" }}
                         src={atrasImg}
                         alt="volver"
@@ -91,6 +91,7 @@ const RecordsComponents = () => {
                             <summary>Clases del {date}</summary>
                             <div className='phather-content'>
                                 {classesOfDay.map((element) => {
+                                    console.log(JSON.stringify(element))
                                     const { hour } = formatDate(element.date);
 
                                     // Usuario normal
@@ -102,7 +103,9 @@ const RecordsComponents = () => {
                                                 style={{ borderBottom: "1px solid hsl(var(--primary))", paddingBottom: "10px", marginBottom: "10px" }}
                                             >
                                                 <p>HORA: {hour}:00</p>
-                                                <p>PROFESOR: {element.trainer.name.toUpperCase()} {element.trainer.lastName.toUpperCase()}</p>
+                                                <p>
+                                                    PROFESOR: {element.trainer?.name?.toUpperCase() || "Sin profesor"} {element.trainer?.lastName?.toUpperCase() || ""}
+                                                </p>
                                                 <p>PRECIO: {element.trainer.priceByClass}€</p>
                                             </div>
                                         );
