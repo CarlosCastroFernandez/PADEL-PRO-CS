@@ -54,7 +54,7 @@ const RegistroComponent = () => {
         <input onChange={(e)=> handleStudent("email",e.target.value) } type="text" placeholder='     Tu@email.com' />
         <label htmlFor="">Contraseña</label>
         <input onChange={(e)=> handleStudent("password",e.target.value) } type="password" placeholder='      Escribe Contraseña...' />
-        <button /*onClick={async()=>await createStudentForRegister(student.email,student.password,student.name,student.lastName)}*/>Crear Cuenta</button>
+        <button onClick={async()=>await createStudentForRegister(student.email,student.password,student.name,student.lastName)}>Crear Cuenta</button>
         <p className='paragraph-footer-register'>¿Ya tienes cuenta? <Link className='link' to="/log-in">Inicia Sesión</Link></p>
 
 
