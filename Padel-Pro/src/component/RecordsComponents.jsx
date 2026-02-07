@@ -4,10 +4,11 @@ import { classesByStudents, classesByTrainer } from '../services/ClassApi';
 import { claseContext } from './Context';
 import atrasImg from "../img/aqua.png"
 import { useNavigate } from 'react-router-dom';
+import { getNewToken } from '../services/TokenRefres';
 
 const RecordsComponents = () => {
     const [listClass, setListClass] = useState([]);
-    const { userLogin } = useContext(claseContext);
+    const { userLogin,changeUser } = useContext(claseContext);
     const navigate = useNavigate();
 
     const classByStudent = async () => {
@@ -66,7 +67,19 @@ const RecordsComponents = () => {
 
     const groupedClasses = groupByDate(listClass);
 
+    const controlNewToken=()=>{
+        const newToken=getNewToken(userLogin.status)
+        if (!newToken){
+            changeUser(undefined)
+            navigate("/log-in")
+        }
+    }
+    useEffect(()=>{
+        controlNewToken();
+    },[])
+
     return (
+        
         <main>
             <section className='section-1-records'>
                 <div className="back-button">

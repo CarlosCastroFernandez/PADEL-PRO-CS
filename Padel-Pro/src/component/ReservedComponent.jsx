@@ -16,27 +16,34 @@ const ReservedComponent = (props) => {
     const creationClass = async (date, idTrainer, listStudents) => {
         console.log(JSON.stringify(listStudents));
         let result = await createClass(date, idTrainer, listStudents);
-
-        if (result !== null && result !== "EXITOSO") {
+        console.log(JSON.stringify(result))
+        if (result !== null && result !== "EXITOSO" && result !== "EXPIRED") {
             setMessage("Este estudiante ya tiene una clase a esta hora");
         } else if (result === null) {
             setMessage("Algo ha ido mal contacta con el desarrollador");
         } else if (result === "EXPIRED") {
-            const newToken = getNewToken();
-            if (newToken) sessionStorage.setItem("token", newToken);
-            result = await createClass(date, idTrainer, listStudents);
-            if (result !== null && result !== "EXITOSO") {
-                setMessage("Este estudiante ya tiene una clase a esta hora");
-            } else if (result === null) {
-                setMessage("Algo ha ido mal contacta con el desarrollador");
-            } else {
-                setMessage("CLASE RESERVADA");
+            const newToken = await getNewToken(userLogin.status);
+            console.log(newToken);
+            if (newToken) {
+                result = await createClass(date, idTrainer, listStudents);
+                if (result !== null && result !== "EXITOSO") {
+                    console.log(JSON.stringify(result))
+                    setMessage("Este estudiante ya tiene una clase a esta hora");
+                } else if (result === null) {
+                    setMessage("Algo ha ido mal contacta con el desarrollador");
+                } else {
+                    setMessage("CLASE RESERVADA");
+                }
+            }else{
+                changeUser(undefined)
+                navigate("/log-in")
             }
 
+
+        }else{
+             setMessage("CLASE RESERVADA");
         }
-        else {
-            setMessage("CLASE RESERVADA");
-        }
+
 
         setTimeout(() => {
             setMessage("");

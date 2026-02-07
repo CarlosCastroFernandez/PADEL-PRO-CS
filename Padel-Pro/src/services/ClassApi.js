@@ -85,12 +85,12 @@ export const createClass = async (date, trainerId, listStudent) => {
     });
 
     const res = await result.json();
-    console.log(JSON.stringify(res.data));
+    console.log(JSON.stringify(res.status));
     if (res !== null && res.status === "SUCCESS") {
       console.log(JSON.stringify(res.data));
       return res.data;
     } else if (res!==null && res.status==="EXPIRED"){
-      return res.data;
+      return res.status;
     }
   } catch (e) {
     console.log("MAL " + e);

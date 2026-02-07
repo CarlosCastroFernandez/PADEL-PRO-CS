@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import "./AdminComponent.css";
 import { createClass, deleteClassById, deleteStudentByClass, getAllClasses } from '../services/ClassApi';
 import { createTrainer } from '../services/TrainerApi';
 import atrasImg from "../img/aqua.png"
 import { createStudent, getStudentByEmail, modifyStudent } from '../services/StudentApi';
 import { useNavigate } from 'react-router-dom';
+import { claseContext } from './Context';
 const AdminComponent = () => {
     const [listClass, setListClass] = useState([]);
     const [openTrainerModal, setOpenTrainerModal] = useState(false);
@@ -20,6 +21,7 @@ const AdminComponent = () => {
     const [questionStudent, setQuestionStudent] = useState(null)
     const [mapErrorTrainer, setMapErrorTrainer] = useState(new Map())
     const [mapErrorPadelero, setMapErrorPadelero] = useState(new Map())
+    const {userLogin,changeUser}=useContext(claseContext);
 
     const navigate = useNavigate();
     const classes = async () => {
@@ -223,8 +225,16 @@ const AdminComponent = () => {
 
         }
     }
+     const controlNewToken=()=>{
+            const newToken=getNewToken(userLogin.status)
+            if (!newToken){
+                changeUser(undefined)
+                navigate("/log-in")
+            }
+        }
 
     useEffect(() => {
+        controlNewToken();
         const fetchData = async () => {
             await classes();
         };

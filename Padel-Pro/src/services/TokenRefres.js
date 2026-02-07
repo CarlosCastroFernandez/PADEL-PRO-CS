@@ -1,7 +1,8 @@
-export async function getNewToken() {
+export async function getNewToken(status) {
+  console.log(status)
   try {
     const tokenActual = sessionStorage.getItem("token");
-    const response = await fetch("http://localhost:3000/token/newToken", {
+    const response = await fetch("http://localhost:3000/token/newToken/"+status, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -16,7 +17,7 @@ export async function getNewToken() {
     try {
       const tokenRefresh = sessionStorage.getItem("tokenRefresh");
       const response = await fetch(
-        "http://localhost:3000/token/newToken",
+        "http://localhost:3000/token/newToken/"+status,
         {
           method: "GET",
           headers: {
@@ -28,10 +29,12 @@ export async function getNewToken() {
       if (!response.ok) throw new Error("Ha ocurrido un error");
       const data = await response.json();
       const token = data.tokenNew;
+      console.log(token)
       sessionStorage.setItem("token", token);
 
       return true;
     } catch (error) {
+      console.log(error)
       return false;
     }
   }
