@@ -5,6 +5,10 @@ import HourComponent from './HourComponent';
 import DateComponent from './DateComponent';
 import ReservedComponent from './ReservedComponent';
 import { hourAvaliable } from '../services/ClassApi';
+import padel from "../img/padel.png";
+import trophy from "../img/trophy.png"
+import satisfaccion from "../img/satisfaction.png"
+import ole from "../img/ole.png"
 
  const Marker=()=> {
   const [clase,setClase]=useState({});
@@ -46,7 +50,7 @@ import { hourAvaliable } from '../services/ClassApi';
       <>
          {console.log(clase)};
         <main className='main-marker'>
-          <section className='marker-section'>
+          <section id='main_class' className='marker-section'>
             <div className='container1-marker'>
               <h1>RESERVA <br />TU<br /><span>ClASE DE<br />PADEL</span></h1>
               <p>Entrena con los mejores profesores certificados. Mejora tu <br />
@@ -60,7 +64,7 @@ import { hourAvaliable } from '../services/ClassApi';
             <div className='container-marker-ticket'>
               <div className='container-marker-grid'>
                 <div className='container-img-marker'>
-                  <img src="" alt="" />
+                  <img src={padel} width={"45px"} style={{margin:"3px"}} alt="" />
                 </div>
 
                 <div className='container-text-marker'>
@@ -70,7 +74,7 @@ import { hourAvaliable } from '../services/ClassApi';
               </div>
               <div className='container-marker-grid'>
                 <div className='container-img-marker'>
-                  <img src="" alt="" />
+                  <img src={trophy} width={"45px"} style={{margin:"3px"}} alt="" />
                 </div>
 
                 <div className='container-text-marker'>
@@ -80,7 +84,7 @@ import { hourAvaliable } from '../services/ClassApi';
               </div>
               <div className='container-marker-grid'>
                 <div className='container-img-marker'>
-                  <img src="" alt="" />
+                  <img src={ole} width={"45px"} style={{margin:"3px"}} alt="" />
                 </div>
 
                 <div className='container-text-marker'>
@@ -98,7 +102,7 @@ import { hourAvaliable } from '../services/ClassApi';
               <p style={{fontSize:"larger",cursor:"pointer", borderBottom:"1px solid hsl(var(--primary))" }}>Inicia Sesión para reservar</p>
             </div>
           </section>
-          <section className='section-trainers'>
+          <section id='trainer' className='section-trainers'>
             <TrainerComponent  classes={clase} onChangeClase={cambioClase} ></TrainerComponent>
           
           </section>
@@ -108,7 +112,7 @@ import { hourAvaliable } from '../services/ClassApi';
           <section style={{marginBottom:"40px"}}>
             <DateComponent classes={clase} onChangeClase={cambioClase} ></DateComponent>
           </section>
-          <section style={{width:"76%",margin:"0 auto", paddingBottom:"30px"}}>
+          <section id='reserved' style={{width:"76%",margin:"0 auto", paddingBottom:"30px"}}>
             <ReservedComponent classes={clase}></ReservedComponent>
           </section>
         </main>

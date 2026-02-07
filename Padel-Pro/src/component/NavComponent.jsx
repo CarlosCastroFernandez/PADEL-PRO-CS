@@ -70,10 +70,10 @@ const Nav = () => {
         </div>
         <div>
           <ul>
-            <li><a href="">Inicio</a></li>
-            <li><a href="">Reservar</a></li>
-            <li><a href="">Profesores</a></li>
-            <li><a href="">Contacto</a></li>
+            <li><a href="#main_class">Inicio</a></li>
+            <li><a href="#reserved">Reservar</a></li>
+            <li><a href="#trainer">Profesores</a></li>
+            <li><a href="#contacto">Contacto</a></li>
           </ul>
         </div>
         <div className='nav-menu-button'>

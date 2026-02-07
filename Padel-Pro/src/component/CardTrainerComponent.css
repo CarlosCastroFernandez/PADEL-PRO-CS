@@ -44,6 +44,7 @@
 }
 .caja-trainer img {
   width: 100%;      /* ocupa todo el ancho del div padre */
+  min-height: auto;
   height: 200px;    /* ajustable */
   object-fit: cover; /* mantiene proporción y recorta si hace falta */
   border-radius: 10px;

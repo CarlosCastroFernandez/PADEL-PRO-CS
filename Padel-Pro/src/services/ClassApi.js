@@ -1,3 +1,5 @@
+import { getNewToken } from "./TokenRefres";
+
 export const hourAvaliable = async (id) => {
   try {
     const result = await fetch(
@@ -73,6 +75,7 @@ export const createClass = async (date, trainerId, listStudent) => {
       method: "POST",
       headers: {
         ["Content-Type"]: "application/json",
+        ["auth-token"]:sessionStorage.getItem("token")
       },
       body: JSON.stringify({
         date: date,
@@ -82,11 +85,11 @@ export const createClass = async (date, trainerId, listStudent) => {
     });
 
     const res = await result.json();
-
+    console.log(JSON.stringify(res.data));
     if (res !== null && res.status === "SUCCESS") {
       console.log(JSON.stringify(res.data));
       return res.data;
-    } else {
+    } else if (res!==null && res.status==="EXPIRED"){
       return res.data;
     }
   } catch (e) {

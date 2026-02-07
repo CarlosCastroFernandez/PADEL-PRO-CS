@@ -6,7 +6,7 @@ import twitter from "../img/twitter.png";
 
 const FooterComponent = () => {
   return (
-    <footer>
+    <footer id='contacto'>
       <div className='container-footer'>
         <h3>PADEL<span>PRO</span></h3>
         <h3>ENLACES</h3>

@@ -3,6 +3,7 @@ import "./ReservedComponent.css"
 import { useNavigate } from 'react-router-dom';
 import { claseContext } from './Context';
 import { createClass } from '../services/ClassApi';
+import { getNewToken } from '../services/TokenRefres';
 const ReservedComponent = (props) => {
     const { userLogin, changeUser } = useContext(claseContext);
     const [message, setMessage] = useState("")
@@ -14,13 +15,26 @@ const ReservedComponent = (props) => {
 
     const creationClass = async (date, idTrainer, listStudents) => {
         console.log(JSON.stringify(listStudents));
-        const result = await createClass(date, idTrainer, listStudents);
+        let result = await createClass(date, idTrainer, listStudents);
 
         if (result !== null && result !== "EXITOSO") {
             setMessage("Este estudiante ya tiene una clase a esta hora");
         } else if (result === null) {
             setMessage("Algo ha ido mal contacta con el desarrollador");
-        } else {
+        } else if (result === "EXPIRED") {
+            const newToken = getNewToken();
+            if (newToken) sessionStorage.setItem("token", newToken);
+            result = await createClass(date, idTrainer, listStudents);
+            if (result !== null && result !== "EXITOSO") {
+                setMessage("Este estudiante ya tiene una clase a esta hora");
+            } else if (result === null) {
+                setMessage("Algo ha ido mal contacta con el desarrollador");
+            } else {
+                setMessage("CLASE RESERVADA");
+            }
+
+        }
+        else {
             setMessage("CLASE RESERVADA");
         }
 
@@ -80,7 +94,7 @@ const ReservedComponent = (props) => {
             </div>
             {
                 message !== "" && (
-                    <p style={message === "CLASE RESERVADA" ? { color: "green",fontSize:"20px" } : { color: "red" }}>{message}</p>
+                    <p style={message === "CLASE RESERVADA" ? { color: "green", fontSize: "20px" } : { color: "red" }}>{message}</p>
                 )
             }
         </div>

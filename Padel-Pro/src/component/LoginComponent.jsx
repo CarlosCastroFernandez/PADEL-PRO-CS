@@ -41,48 +41,60 @@ const LoginComponent = () => {
     }
 
     const handleLogin = (prop, propValue) => {
-        setRequestStudent({
-            ...requestStudent,
-            [prop]: propValue
-        })
-        //console.log(requestStudent)
-    }
+    setRequestStudent(prev => {
+        const updated = { ...prev, [prop]: propValue }
+
+        if (propValue === "") {
+            delete updated[prop]
+        }
+
+        return updated
+    })
+}
     const iniciarSesion = async (email, password) => {
         const mapa = checkControlLogin();
         if (mapa.get("email") === undefined && mapa.get("password") === undefined) {
             const userBBDForUser = await findStudentByEmail(email, password);
-            if (userBBDForUser !== undefined) {
+            if (userBBDForUser.data !== undefined) {
                 const userNorm = {
-                    ...userBBDForUser,
+                    ...userBBDForUser.data,
                     status: "user"
                 }
+                sessionStorage.setItem("token",userBBDForUser.token)
+                sessionStorage.setItem("tokenRefresh",userBBDForUser.tokenRefresh)
                 changeUser(userNorm)
                 navigateHome()
                 console.log("HOLA")
                 return;
             }
             const userBBDTrainer = await findTrainerByEmail(email, password);
-            if (userBBDTrainer !== undefined) {
+            if (userBBDTrainer.data !== undefined) {
                 const userNorm = {
-                    ...userBBDTrainer,
+                    ...userBBDTrainer.data,
                     status: "trainer"
                 }
-
+                  sessionStorage.setItem("token",userBBDTrainer.token)
+                  sessionStorage.setItem("tokenRefresh",userBBDTrainer.tokenRefresh)
                 changeUser(userNorm)
                 navigateHome()
                 return;
             }
             const userBBDTAdmin = await findAdminByEmail(email, password);
             console.log(userBBDTAdmin)
-            if (userBBDTAdmin !== undefined) {
+            if (userBBDTAdmin.data !== undefined) {
                 const userNorm = {
-                    ...userBBDTAdmin,
+                    ...userBBDTAdmin.data,
                     status: "admin"
                 }
-
+                  sessionStorage.setItem("token",userBBDTAdmin.token)
+                  sessionStorage.setItem("tokenRefresh",userBBDTAdmin.tokenRefresh)
                 changeUser(userNorm)
                 navigateHome()
                 return;
+            }else{
+                let mapa=new Map();
+                mapa.set("KO","El email o contraseña son incorrectos");
+                setMapLogin(mapa);
             }
 
         }
@@ -140,6 +152,11 @@ const LoginComponent = () => {
                     <label style={{color:"red"}}>{mapLogin.get("password")}</label>
                 )}
                 <button onClick={async () => await iniciarSesion(requestStudent.email, requestStudent.password)}>Iniciar Sesión</button>
+                {mapLogin.get("KO")&&
+                    (
+                        <p style={{color:"red"}}>{mapLogin.get("KO")}</p>
+                    )
+                }
                 <p className='paragraph-footer'>¿No tienes cuenta? <Link className='link' to="registro">Registrate</Link></p>
 
 
