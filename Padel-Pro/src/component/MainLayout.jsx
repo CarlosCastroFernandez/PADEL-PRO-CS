@@ -1,12 +1,15 @@
 import React from 'react'
-import Nav from './NavComponent'
-import Marker from './MarkerComponent'
+import NavComponent from './NavComponent'
+import MarkerComponent from './MarkerComponent'
+import FooterComponent from './FooterComponent'
 
 const MainLayout = () => {
   return (
     <>
-   <Nav></Nav>
-   <Marker></Marker>
+   <NavComponent></NavComponent>
+   <MarkerComponent></MarkerComponent>
+   <FooterComponent></FooterComponent>
+
    </>
   )
 }

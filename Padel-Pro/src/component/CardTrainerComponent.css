@@ -1,0 +1,56 @@
+.caja-trainer {
+  border: 1px solid hsl(var(--border));
+  border-radius: 10px;
+  background: var(--gradient-card);
+  height: 350px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+  cursor: pointer;
+}
+.caja-trainer.select {
+    border: 1px solid hsl(var(--border));
+  border-radius: 10px;
+  background: var(--gradient-card);
+  height: 350px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+  cursor: pointer;
+  border: 2px solid hsl(var(--primary));
+}
+
+.caja-trainer:hover{
+  border: 1px solid hsl(var(--primary));
+}
+
+
+  
+.caja-trainer div .name-title{
+  padding-left: 20px;
+  font-size: 20px;
+}
+.caja-trainer div .description{
+  padding-left: 20px;
+  font-size: 14px;
+  color: hsl(var(--normal-letter));
+}
+.caja-trainer div{
+  line-height: 12px;
+}
+.caja-trainer img {
+  width: 100%;      /* ocupa todo el ancho del div padre */
+  min-height: auto;
+  height: 200px;    /* ajustable */
+  object-fit: cover; /* mantiene proporción y recorta si hace falta */
+  border-radius: 10px;
+}
+.caja-trainer .footer{
+    padding-left: 20px;
+    color: hsl(var(--normal-letter));
+    font-size: 14px;
+}
