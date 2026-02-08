@@ -1,0 +1,91 @@
+.container-date{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-left:200px ;
+    padding-right:200px ;
+    width: 100%;
+    
+}
+.title-date{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    width: 45%;
+    
+  
+}
+.title-date h3{
+    font-size: x-large;
+}
+
+.caja-date{
+      background: hsl(var(--box-hour));
+    width: 150px;
+    border-radius: 20px;
+    text-align: center;
+    color: hsl(var(--normal-letter));
+    cursor: pointer;
+}
+.caja-date.select{
+           background: hsl(var(--box-hour));
+    width: 150px;
+    border-radius: 20px;
+    text-align: center;
+    color: hsl(var(--normal-letter));
+  cursor: pointer;
+    border: 1px solid hsl(var(--primary));
+
+}
+.title-date .container-number-title-date{
+    border: 1px solid hsl(var(--primary));
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:hsl(var(--primary));
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+.container-data-date{
+    background: var(--gradient-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    align-self: center;
+
+}
+.container-div-date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+      overflow-x: auto;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.container-data-date .fecha{
+     color: hsl(var(--normal-letter));
+}
+.container-div-date div .number{
+    color: white;
+    font-size: 25px;
+}
+.container-div-date {
+    color: hsl(var(--normal-letter));
+}
