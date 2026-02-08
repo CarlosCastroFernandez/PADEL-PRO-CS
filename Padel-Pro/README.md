@@ -1,16 +1,52 @@
-# React + Vite
+## Proyecto Sin Responsive
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🏓 PadelPro – Gestión de Clases y Reservas
 
-Currently, two official plugins are available:
+PadelPro es una aplicación web desarrollada para la **gestión de clases de pádel**, donde **usuarios (alumnos)**, **entrenadores** y **administradores** tienen diferentes permisos y funcionalidades según su rol.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+El sistema permite visualizar clases según **fecha y hora actual**, gestionar reservas y administrar usuarios de forma segura mediante autenticación con tokens.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Funcionalidades Principales
 
-## Expanding the ESLint configuration
+### 👤 Usuarios (Alumnos)
+- Ver las **clases reservadas** filtradas automáticamente:
+  - Solo se muestran clases **posteriores a la fecha y hora actual**.
+- Consultar información de la clase:
+  - Hora
+  - Entrenador asignado
+  - Precio
+- Autenticación segura mediante JWT.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+### 🧑‍🏫 Entrenadores
+- Visualizar las **clases que imparten**, organizadas por día y hora.
+- Ver los **alumnos inscritos** en cada clase.
+- Acceso solo a clases futuras (no se muestran clases pasadas).
+
+---
+
+### 🛠️ Administrador
+El administrador tiene control total del sistema:
+
+- 📅 **Gestión de clases**
+  - Cancelar clases.
+  - Añadir alumnos a una clase existente.
+- 👥 **Gestión de usuarios**
+  - Crear nuevos alumnos.
+  - Crear nuevos entrenadores.
+  - Modificar nombre y apellidos de alumnos.
+- 🔐 Acceso protegido por rol (`admin`).
+
+---
+
+## ⏱️ Filtro por Fecha y Hora
+
+Tanto alumnos como entrenadores solo pueden ver clases que cumplan esta condición:
+
+```js
+classDate >= currentDate
+
+
