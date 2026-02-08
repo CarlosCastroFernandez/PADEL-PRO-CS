@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import "./NavComponent.css";
 import { useNavigate } from 'react-router-dom';
@@ -16,9 +16,15 @@ const Nav = () => {
   const navigateRegister = () => {
     navigate("/log-in/registro");
   }
+  const reset=()=>{
+    sessionStorage.clear();
+    changeUser(undefined);
+
+  }
 
   const showUserInNav = () => {
     if (userLogin!== undefined) {
+      console.log(userLogin)
           const nameVisual = userLogin.name + " " + userLogin.lastName
           const nameResult = nameVisual.split(" ").slice(0, 2)
       switch (userLogin.status) {
@@ -28,7 +34,7 @@ const Nav = () => {
               <div style={{display:"flex",justifyContent:"center",alignItems:"center", gap:"20px"}}>
                 <h5>{nameResult[0] + " " + nameResult[1]}</h5>
                 <button className='button-menu2'onClick={()=>navigate("/admin")} >Ver Clases</button>
-                <button onClick={()=>changeUser(undefined)} className='button-menu1' >Log-Out</button>
+                <button onClick={()=>reset()} className='button-menu1' >Log-Out</button>
               </div>
 
             </>
@@ -39,7 +45,7 @@ const Nav = () => {
               <div style={{display:"flex",justifyContent:"center",alignItems:"center", gap:"20px"}}>
                 <h5>{nameResult[0] + " " + nameResult[1]}</h5>
                 <button className='button-menu2' onClick={()=>navigate("/records")}>Ver Reservas</button>
-                <button onClick={()=>changeUser(undefined)} className='button-menu1' >Log-Out</button>
+                <button onClick={()=>reset()} className='button-menu1' >Log-Out</button>
               </div>
 
             </>
@@ -51,7 +57,7 @@ const Nav = () => {
               <div style={{display:"flex",justifyContent:"center",alignItems:"center", gap:"20px"}}>
                 <h5>{nameResult[0] + " " + nameResult[1]}</h5>
                 <button className='button-menu2' onClick={()=>navigate("/records")}>Ver Clases</button>
-                <button onClick={()=>changeUser(undefined)} className='button-menu1' >Log-Out</button>
+                <button onClick={()=>reset()} className='button-menu1' >Log-Out</button>
               </div>
 
             </>
@@ -61,6 +67,9 @@ const Nav = () => {
     }
 
   }
+  useEffect(() => {
+  console.log(userLogin)
+}, []);
 
   return (
     <section>

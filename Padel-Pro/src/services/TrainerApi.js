@@ -4,7 +4,8 @@ export const createTrainer=async (email,password,name,lastName,description,price
     const result= await fetch("http://localhost:3000/trainer/createTrainer",{
         method:"POST",
         headers:{
-            ["Content-Type"]:"application/json"
+            ["Content-Type"]:"application/json",
+            ["auth-token"]:sessionStorage.getItem("token")
         },
         body: JSON.stringify({
             name:name,
@@ -24,6 +25,8 @@ export const createTrainer=async (email,password,name,lastName,description,price
         console.log(JSON.stringify(res.data))
         return res.data;
 
+    }else if(res!==null && res.status==="EXPIRED"){
+        return res;
     }
 
     }catch(e){
@@ -37,7 +40,8 @@ export const findTrainerByEmail=async (email,password)=>{
     const result= await fetch("http://localhost:3000/trainer/findTrainerByEmail",{
         method:"POST",
         headers:{
-            ["Content-Type"]:"application/json"
+            ["Content-Type"]:"application/json",
+           
         },
         body: JSON.stringify({
             email:email,
@@ -49,10 +53,10 @@ export const findTrainerByEmail=async (email,password)=>{
 
     if (res!==null && res.status==="SUCCESS"){
         console.log(JSON.stringify(res.data))
-        return res.data;
+        return res;
 
-    }else{
-        return undefined
+    }else {
+        return res;
     }
 
     }catch(e){

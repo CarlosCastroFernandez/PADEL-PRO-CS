@@ -91,6 +91,10 @@ export const createClass = async (date, trainerId, listStudent) => {
       return res.data;
     } else if (res!==null && res.status==="EXPIRED"){
       return res.status;
+    }else if(res!==null&& res.status==="NO EXITOSO"){
+      return res.status;
+    }else{
+      return null
     }
   } catch (e) {
     console.log("MAL " + e);
@@ -150,13 +154,16 @@ export const getAllClasses = async () => {
       method: "GET",
       headers: {
         ["Content-Type"]: "application/json",
+        ["auth-token"]:sessionStorage.getItem("token")
       },
     });
 
     const res = await result.json();
 
     if (res !== null && res.status === "SUCCESS") {
-      return res.data;
+      return res;
+    }else if (res !== null && res.status === "EXPIRED"){
+      return res;
     }
   } catch (e) {
     console.log("MAL");
@@ -171,6 +178,7 @@ export const deleteClassById = async (classId) => {
         method: "DELETE",
         headers: {
           ["Content-Type"]: "application/json",
+          ["auth-token"]:sessionStorage.getItem("token")
         },
       },
     );
@@ -180,6 +188,8 @@ export const deleteClassById = async (classId) => {
     if (res !== null && res.status === "SUCCESS") {
       console.log(JSON.stringify(res.data));
       return res.data;
+    }else if(res!==null&&res.status==="EXPIRED"){
+      return res;
     }
   } catch (e) {
     console.log("MAL");
@@ -194,6 +204,7 @@ export const deleteStudentByClass = async (classId,studentId) => {
         method: "DELETE",
         headers: {
           ["Content-Type"]: "application/json",
+          ["auth-token"]:sessionStorage.getItem("token")
         },
       },
     );
@@ -205,6 +216,10 @@ export const deleteStudentByClass = async (classId,studentId) => {
       return res.data;
     }else if(res!==null && res.status==="ERROR"){
       return res.message;
+    }else if(res!==null&&res.status==="EXPIRED"){
+      return res;
+    }else{
+      return null;
     }
   } catch (e) {
     console.log("MAL");

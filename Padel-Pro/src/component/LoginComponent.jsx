@@ -55,7 +55,7 @@ const LoginComponent = () => {
         const mapa = checkControlLogin();
         if (mapa.get("email") === undefined && mapa.get("password") === undefined) {
             const userBBDForUser = await findStudentByEmail(email, password);
-            if (userBBDForUser.data !== undefined) {
+            if (userBBDForUser?.data !== undefined) {
                 const userNorm = {
                     ...userBBDForUser.data,
                     status: "user"
@@ -63,12 +63,13 @@ const LoginComponent = () => {
                 sessionStorage.setItem("token",userBBDForUser.token)
                 sessionStorage.setItem("tokenRefresh",userBBDForUser.tokenRefresh)
                 changeUser(userNorm)
+                sessionStorage.setItem("user",JSON.stringify(userNorm))
                 navigateHome()
                 console.log("HOLA")
                 return;
             }
             const userBBDTrainer = await findTrainerByEmail(email, password);
-            if (userBBDTrainer.data !== undefined) {
+            if (userBBDTrainer?.data !== undefined) {
                 const userNorm = {
                     ...userBBDTrainer.data,
                     status: "trainer"
@@ -76,19 +77,22 @@ const LoginComponent = () => {
                   sessionStorage.setItem("token",userBBDTrainer.token)
                   sessionStorage.setItem("tokenRefresh",userBBDTrainer.tokenRefresh)
                 changeUser(userNorm)
+                sessionStorage.setItem("user",JSON.stringify(userNorm))
                 navigateHome()
                 return;
             }
             const userBBDTAdmin = await findAdminByEmail(email, password);
             console.log(userBBDTAdmin)
-            if (userBBDTAdmin.data !== undefined) {
+            if (userBBDTAdmin?.data !== undefined) {
                 const userNorm = {
                     ...userBBDTAdmin.data,
                     status: "admin"
                 }
+                console.log(userNorm)
                   sessionStorage.setItem("token",userBBDTAdmin.token)
                   sessionStorage.setItem("tokenRefresh",userBBDTAdmin.tokenRefresh)
                 changeUser(userNorm)
+                sessionStorage.setItem("user",JSON.stringify(userNorm))
                 navigateHome()
                 return;
             }else{

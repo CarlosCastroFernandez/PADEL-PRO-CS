@@ -13,6 +13,12 @@ main{
 .section1-admin h1, .section1-admin p{
   color: hsl(var(--primary));
 }
+.titulo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 summary {
   list-style: none;
   cursor: pointer;

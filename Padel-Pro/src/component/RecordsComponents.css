@@ -12,6 +12,14 @@ main{
 .section-1-records h1, .section-1-records p{
   color: hsl(var(--primary));
 }
+.title {
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
 summary {
   list-style: none;
   cursor: pointer;

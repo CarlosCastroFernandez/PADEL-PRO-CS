@@ -17,7 +17,7 @@ export const findAdminByEmail=async (email,password)=>{
 
     if (res!==null && res.status==="SUCCESS"){
         console.log(JSON.stringify(res.data))
-        return res.data;
+        return res;
 
     }else{
         return undefined

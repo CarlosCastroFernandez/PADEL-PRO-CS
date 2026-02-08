@@ -11,11 +11,11 @@ const RecordsComponents = () => {
     const { userLogin,changeUser } = useContext(claseContext);
     const navigate = useNavigate();
 
-    const classByStudent = async () => {
-        let idMoment = userLogin._id;
+    const classByStudent = async (user) => {
+        let idMoment = user._id;
         console.log("IDDIDIDID " + idMoment)
         let listClassByStudent;
-        if (userLogin && userLogin.status === "user") {
+        if (user && userLogin.status === "user") {
             listClassByStudent = await classesByStudents(idMoment);
         } else {
             listClassByStudent = await classesByTrainer(idMoment);
@@ -39,12 +39,6 @@ const RecordsComponents = () => {
     };
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await classByStudent();
-        };
-        fetchData();
-    }, []);
 
     const formatDate = (dateStr) => {
         const d = new Date(dateStr);
@@ -67,16 +61,35 @@ const RecordsComponents = () => {
 
     const groupedClasses = groupByDate(listClass);
 
-    const controlNewToken=()=>{
-        const newToken=getNewToken(userLogin.status)
-        if (!newToken){
-            changeUser(undefined)
-            navigate("/log-in")
-        }
-    }
-    useEffect(()=>{
-        controlNewToken();
-    },[])
+    const controlNewToken = async (user) => {
+               const newToken = await getNewToken(user.status)
+               if (!newToken) {
+                   changeUser(undefined)
+                   sessionStorage.removeItem("user")
+                   navigate("/log-in")
+               }
+           }
+      useEffect(() => {
+             // Función que hace todo el fetch
+             const fetchData = async (user) => {
+                 await controlNewToken(user); // renovar token si está expirado
+                 await classByStudent(user)
+                   
+             };
+         
+             if (userLogin) {
+                 // Si ya tenemos el usuario en el contexto, usamos directamente
+                 fetchData(userLogin);
+             } else {
+                 // Intentar recuperar del storage
+                 const storedUser = sessionStorage.getItem("user");
+                 if (storedUser) {
+                     const parsedUser = JSON.parse(storedUser);
+                     changeUser(parsedUser); // actualiza el contexto
+                     fetchData(parsedUser);  // usa el usuario recuperado
+                 } 
+             }
+         }, []); // se eje
 
     return (
         
@@ -90,9 +103,9 @@ const RecordsComponents = () => {
                         alt="volver"
                     />
                 </div>
-                <div>
-                    <h1>Bienvenido a sus reservas</h1>
-                    <p>En esta sección podrás ver qué reservas tienes pendientes a realizar</p>
+                <div className='title'>
+                    <h1 style={{fontSize:"55px",color:"white"}}>Bienvenido a <span>sus reservas</span></h1>
+                    <i style={{color:"white",fontSize:"17px"}}>En esta sección podrás ver qué reservas tienes pendientes a realizar</i>
                 </div>
 
             </section>

@@ -6,6 +6,7 @@ import atrasImg from "../img/aqua.png"
 import { createStudent, getStudentByEmail, modifyStudent } from '../services/StudentApi';
 import { useNavigate } from 'react-router-dom';
 import { claseContext } from './Context';
+import { getNewToken } from '../services/TokenRefres';
 const AdminComponent = () => {
     const [listClass, setListClass] = useState([]);
     const [openTrainerModal, setOpenTrainerModal] = useState(false);
@@ -17,17 +18,29 @@ const AdminComponent = () => {
     const [padelero, setPadelero] = useState({})
     const [addStudent, setAddStudent] = useState({})
     const [classe, setClasse] = useState({})
-    const [modifyPlayer, setModifyPlayer]=useState({});
+    const [modifyPlayer, setModifyPlayer] = useState({});
     const [questionStudent, setQuestionStudent] = useState(null)
     const [mapErrorTrainer, setMapErrorTrainer] = useState(new Map())
     const [mapErrorPadelero, setMapErrorPadelero] = useState(new Map())
-    const {userLogin,changeUser}=useContext(claseContext);
+    const { userLogin, changeUser } = useContext(claseContext);
 
     const navigate = useNavigate();
     const classes = async () => {
+        console.log(JSON.stringify(userLogin))
         let listClasses = await getAllClasses();
+        if (listClasses != null && listClasses.status === "EXPIRED") {
+            const newToken = await getNewToken(userLogin.status);
+            if (newToken) {
+                listClasses = await getAllClasses();
+            } else {
+                changeUser(undefined);
+                sessionStorage.removeItem("user")
+                navigate("/log-in")
+            }
+        }
 
-        if (listClasses !== null) {
+        if (listClasses !== null && listClasses.status === "SUCCESS") {
+            listClasses = listClasses.data
             const now = new Date();
 
             const filteredClasses = listClasses.filter((element) => {
@@ -36,6 +49,7 @@ const AdminComponent = () => {
                 // Incluye la clase si es posterior a ahora
                 return classDate >= now;
             });
+
 
             setListClass(filteredClasses);
         } else {
@@ -81,7 +95,7 @@ const AdminComponent = () => {
         if (!newPadelero?.name || newPadelero?.name?.length <= 3) {
             mapError.set("name", (!newPadelero?.name ? "No puede ser un nombre vacío" : newPadelero?.name.length <= 3 ? "Mínimo 3 carácteres" : ""));
         }
-        if (!newPadelero?.lastName || newPadeler?.lastName?.length <= 3) {
+        if (!newPadelero?.lastName || newPadelero?.lastName?.length <= 3) {
             mapError.set("lastName", (!newPadelero?.lastName ? "No puede ser unos apellidos vacío" : newPadelero?.lastName?.length <= 3 ? "Mínimo 3 carácteres" : ""));
         }
         if (!newPadelero?.password || newPadelero?.password?.length < 6) {
@@ -110,6 +124,18 @@ const AdminComponent = () => {
             const newTrainer = await createTrainer(trainerPadel.email, trainerPadel.password, trainerPadel.name, trainerPadel.lastName,
                 trainerPadel.description, trainerPadel.priceByClass, trainerPadel.sex, trainerPadel.experienceYears
             )
+            if (newTrainer.status === "EXPIRED") {
+                const newToken = await getNewToken(userLogin.status)
+                if (newToken) {
+                    const trainerNew = await createTrainer(trainerPadel.email, trainerPadel.password, trainerPadel.name, trainerPadel.lastName,
+                        trainerPadel.description, trainerPadel.priceByClass, trainerPadel.sex, trainerPadel.experienceYears)
+
+                } else {
+                    changeUser(undefined);
+                    sessionStorage.removeItem("user")
+                    navigate("/log-in")
+                }
+            }
 
         }
 
@@ -138,6 +164,16 @@ const AdminComponent = () => {
         mapErrorPadelero.forEach(element => console.log(element))
         if (mapErrorPadelero.size === 0) {
             const newPadelero = await createStudent(padeleroStudent.email, padeleroStudent.password, padeleroStudent.name, padeleroStudent.lastName)
+            if (newPadelero.status === "EXPIRED") {
+                const newToken = await getNewToken(userLogin.status);
+                if (newToken) {
+                    const padeleroNew = await createStudent(padeleroStudent.email, padeleroStudent.password, padeleroStudent.name, padeleroStudent.lastName)
+                } else {
+                    changeUser(undefined);
+                    sessionStorage.removeItem("user")
+                    navigate("/log-in")
+                }
+            }
 
         }
 
@@ -148,6 +184,17 @@ const AdminComponent = () => {
         let classDelete;
         if (classId) {
             classDelete = await deleteClassById(classId)
+            if (classDelete !== null && classDelete.status === "EXPIRED") {
+                const newToken = await getNewToken(userLogin.status)
+                if (newToken) {
+                    classDelete = await deleteClassById(classId)
+                } else {
+                    changeUser(undefined);
+                    sessionStorage.removeItem("user")
+                    navigate("/log-in")
+                }
+            }
+
         }
         if (classDelete) {
             listaClasses = listaClasses.filter(element => element._id !== classId);
@@ -170,11 +217,33 @@ const AdminComponent = () => {
         if (mapError.size === 0) {
             const fecha = new Date(date);
             const fechaString = fecha.getFullYear() + "-" + fecha.getMonth() + "-" + fecha.getDate() + "-" + fecha.getHours();
-            const student = await getStudentByEmail(email);
+            let student = await getStudentByEmail(email);
+            if (student !== undefined && student.status === "EXPIRED") {
+                const newToken = await getNewToken(userLogin.status);
+                if (newToken) {
+                    student = await getStudentByEmail(email);
+                } else {
+                    changeUser(undefined);
+                    sessionStorage.removeItem("user")
+                    navigate("/log-in")
+                }
+            }
             console.log(student)
             if (student) {
                 let listIdStudent = [student._id];
                 let data = await createClass(classe.date, trainerId, listIdStudent)
+
+                if (data !== null && data.status === "EXPIRED") {
+                    const newToken = await getNewToken(userLogin.status);
+                    if (newToken) {
+                        data = await createClass(classe.date, trainerId, listIdStudent)
+                    } else {
+                        changeUser(undefined);
+                        sessionStorage.removeItem("user")
+                        navigate("/log-in")
+                    }
+                }
+
                 if (data === "NO EXITOSO") {
                     setQuestionStudent(false);
                 } else {
@@ -192,7 +261,17 @@ const AdminComponent = () => {
     }
 
     const deleteStudentByClassId = async (idClass, studentId) => {
-        const classAfectada = await deleteStudentByClass(idClass, studentId);
+        let classAfectada = await deleteStudentByClass(idClass, studentId);
+        if (classAfectada !== null && classAfectada === "EXPIRED") {
+            const newToken = await getNewToken(userLogin.status);
+            if (newToken) {
+                classAfectada = await deleteStudentByClass(idClass, studentId);
+            } else {
+                changeUser(undefined);
+                sessionStorage.removeItem("user")
+                navigate("/log-in")
+            }
+        }
 
         if (classAfectada) {
 
@@ -200,46 +279,71 @@ const AdminComponent = () => {
         }
     };
 
-    const handleModify=(prop,propValue)=>{
+    const handleModify = (prop, propValue) => {
         setModifyPlayer({
             ...modifyPlayer,
-            [prop]:propValue
+            [prop]: propValue
         })
         console.log(JSON.stringify(modifyPlayer))
-        
-        
+
+
     }
-    const checkModifyPlayer=()=>{
-        if (modifyPlayer.name===""&&modifyPlayer.lastName===""){
+    const checkModifyPlayer = () => {
+        if (modifyPlayer.name === "" && modifyPlayer.lastName === "") {
             return false
-        }else{
+        } else {
             return true
         }
     }
 
-    const modifyPlayerBBD=async ()=>{
-        const result=checkModifyPlayer()
-        if (result){
-            await modifyStudent(modifyPlayer.name,modifyPlayer.lastName,modifyPlayer.id);
+    const modifyPlayerBBD = async () => {
+        const result = checkModifyPlayer()
+        if (result) {
+            let data = await modifyStudent(modifyPlayer.name, modifyPlayer.lastName, modifyPlayer.id);
+            if (data !== null && data.status === "EXPIRED") {
+                const newToken = await getNewToken(userLogin.status);
+                if (newToken) {
+                    data = await modifyStudent(modifyPlayer.name, modifyPlayer.lastName, modifyPlayer.id);
+                } else {
+                    changeUser(undefined);
+                    sessionStorage.removeItem("user")
+                    navigate("/log-in")
+                }
+            }
+
             await classes();
 
         }
     }
-     const controlNewToken=()=>{
-            const newToken=getNewToken(userLogin.status)
-            if (!newToken){
-                changeUser(undefined)
-                navigate("/log-in")
-            }
+    const controlNewToken = async (user) => {
+        const newToken = await getNewToken(user.status)
+        if (!newToken) {
+            changeUser(undefined)
+            sessionStorage.removeItem("user")
+            navigate("/log-in")
         }
+    }
 
     useEffect(() => {
-        controlNewToken();
-        const fetchData = async () => {
-            await classes();
+        // Función que hace todo el fetch
+        const fetchData = async (user) => {
+            await controlNewToken(user); // renovar token si está expirado
+            await classes(user);         // cargar clases
         };
-        fetchData();
-    }, []);
+
+        if (userLogin) {
+            // Si ya tenemos el usuario en el contexto, usamos directamente
+            fetchData(userLogin);
+        } else {
+            // Intentar recuperar del storage
+            const storedUser = sessionStorage.getItem("user");
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                changeUser(parsedUser); // actualiza el contexto
+                fetchData(parsedUser);  // usa el usuario recuperado
+            } 
+        }
+    }, []); // se ejecuta 
 
     const formatDate = (dateStr) => {
         const d = new Date(dateStr);
@@ -275,14 +379,14 @@ const AdminComponent = () => {
                         alt="volver"
                     />
                 </div>
-                <div>
-                    <h1 style={{ textAlign: "center" }}>PANEL DE CONTROL</h1>
-                    <p style={{ textAlign: "center", lineHeight: "30px" }}>
+                <div className='titulo'>
+                    <h1 style={{ textAlign: "center",color:"white" ,fontSize:"55px"}}>PANEL D<span>E CONTROL</span>  </h1>
+                    <i style={{ textAlign: "center", lineHeight: "30px" }}>
                         Este es su panel de control donde podrás cancelar clases, borrar
                         padeleros de sus clases <br />e incluso añadir padeleros a las clases
                         siempre y cuando en una  clase<br /> no haya 4 padeleros.
                         ¡GRACIAS!, por confiar en PADEL<span>PRO</span>
-                    </p>
+                    </i>
                 </div>
 
             </section>
@@ -328,7 +432,7 @@ const AdminComponent = () => {
                                                             {student.name.toUpperCase()} {student.lastName.toUpperCase()}
                                                         </li>
                                                         <button onClick={() => deleteStudentByClassId(element._id, student._id)}> X</button>
-                                                        <button onClick={()=>{setModifyPlayer({name:student.name,lastName:student.lastName,id:student._id}); setOpenModifyStudentModal(true)}} style={{ background: "hsl(var(--primary))" }}>O</button>
+                                                        <button onClick={() => { setModifyPlayer({ name: student.name, lastName: student.lastName, id: student._id }); setOpenModifyStudentModal(true) }} style={{ background: "hsl(var(--primary))" }}>O</button>
 
                                                     </ul>
                                                 </div>
@@ -470,6 +574,11 @@ const AdminComponent = () => {
 
 
                             }
+                            {mapErrorTrainer.size===0 &&(
+                                <label style={{ color: "green" }}>Entrenador Creado</label>
+                            )
+                            
+                            }
 
                             <div className="modal-footer">
                                 <button type="submit" >Guardar</button>
@@ -563,6 +672,12 @@ const AdminComponent = () => {
 
                             }
 
+                            {
+                                mapErrorPadelero.size===0 &&(
+                                    <label style={{ color: "green" }}>Padelero Creado</label>
+                                )
+                            }
+
 
                             <div className="modal-footer">
                                 <button type="submit">Guardar</button>
@@ -642,7 +757,7 @@ const AdminComponent = () => {
                 <div className="modal-backdrop">
                     <div className="modal-window">
                         <header className="modal-header">
-                            <h2 style={{textAlign:"center"}}>Modificar el apellido o el nombre del  padelero</h2>
+                            <h2 style={{ textAlign: "center" }}>Modificar el apellido o el nombre del  padelero</h2>
                             <button
                                 className="close-modal"
                                 onClick={() => setOpenModifyStudentModal(false)}
@@ -656,7 +771,7 @@ const AdminComponent = () => {
                             onSubmit={(e) => {
                                 e.preventDefault();
 
-                               modifyPlayerBBD();
+                                modifyPlayerBBD();
                             }}
 
                         >
@@ -664,22 +779,22 @@ const AdminComponent = () => {
                             <input value={modifyPlayer.name} onChange={(e) => handleModify("name", e.target.value)} type="text" placeholder="Nombre Padelero" />
 
                             <input value={modifyPlayer.lastName} onChange={(e) => handleModify("lastName", e.target.value)} type="text" placeholder="Apellidos" />
-                            {modifyPlayer.name===""&&modifyPlayer.lastName==="" &&(
+                            {modifyPlayer.name === "" && modifyPlayer.lastName === "" && (
 
                                 <label style={{ color: "red" }}>No pueden ser vacíos</label>
                             )
-                            
-                            
-                            
+
+
+
                             }
 
-                            
 
 
 
 
 
-                            
+
+
 
 
 

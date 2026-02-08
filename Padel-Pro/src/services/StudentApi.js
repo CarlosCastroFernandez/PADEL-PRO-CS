@@ -3,7 +3,8 @@ export const createStudent=async (email,password,name,lastName)=>{
     const result= await fetch("http://localhost:3000/student/createStudent",{
         method:"POST",
         headers:{
-            ["Content-Type"]:"application/json"
+            ["Content-Type"]:"application/json",
+            ["auth-token"]:sessionStorage.getItem("token")
         },
         body: JSON.stringify({
             name:name,
@@ -19,6 +20,8 @@ export const createStudent=async (email,password,name,lastName)=>{
         console.log(JSON.stringify(res.data))
         return res.data;
 
+    }else if(res!==null&&res.status==="EXPIRED"){
+        return res;
     }
 
     }catch(e){
@@ -61,7 +64,8 @@ export const getStudentByEmail=async (email)=>{
     const result= await fetch("http://localhost:3000/student/getStudentByEmail/"+email,{
         method:"GET",
         headers:{
-            ["Content-Type"]:"application/json"
+            ["Content-Type"]:"application/json",
+            ["auth-token"]:sessionStorage.getItem("token")
         }
     });
 
@@ -71,6 +75,8 @@ export const getStudentByEmail=async (email)=>{
         console.log(JSON.stringify(res.data))
         return res.data;
 
+    }else if (res!==null&&res.status==="EXPIRED"){
+        return res
     }else{
         return undefined
     }
@@ -89,7 +95,8 @@ export const modifyStudent=async (name,lastName,id)=>{
     const result= await fetch("http://localhost:3000/student/modifyStudentById",{
         method:"POST",
         headers:{
-            ["Content-Type"]:"application/json"
+            ["Content-Type"]:"application/json",
+            ["auth-token"]:sessionStorage.getItem("token")
         },
         body:JSON.stringify({
             name:name,
@@ -104,8 +111,10 @@ export const modifyStudent=async (name,lastName,id)=>{
         console.log(JSON.stringify(res.data))
         return res.data;
 
+    }else if(res!==null&&res.status==="EXPIRED"){
+        return res;
     }else{
-        return res.message;
+        return res.message
     }
 
     }catch(e){

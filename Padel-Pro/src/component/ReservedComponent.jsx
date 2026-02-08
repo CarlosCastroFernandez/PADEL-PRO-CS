@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "./ReservedComponent.css"
 import { useNavigate } from 'react-router-dom';
 import { claseContext } from './Context';
@@ -50,6 +50,36 @@ const ReservedComponent = (props) => {
         }, 5000)
 
     }
+
+        const controlNewToken = async (user) => {
+            const newToken = await getNewToken(user.status)
+            if (!newToken) {
+                changeUser(undefined)
+                sessionStorage.removeItem("user")
+                navigate("/log-in")
+            }
+        }
+        useEffect(() => {
+            // Función que hace todo el fetch
+            const fetchData = async (user) => {
+                await controlNewToken(user); // renovar token si está expirado
+                  
+            };
+        
+            if (userLogin) {
+                // Si ya tenemos el usuario en el contexto, usamos directamente
+                fetchData(userLogin);
+            } else {
+                // Intentar recuperar del storage
+                const storedUser = sessionStorage.getItem("user");
+                if (storedUser) {
+                    const parsedUser = JSON.parse(storedUser);
+                    changeUser(parsedUser); // actualiza el contexto
+                    fetchData(parsedUser);  // usa el usuario recuperado
+                } 
+            }
+        }, []); // se ejecuta 
+    
     return (
         <div className='container-resume'>
             <h4 style={{ color: "white", fontSize: "20px" }}>RESUMEN DE RESERVA</h4>
