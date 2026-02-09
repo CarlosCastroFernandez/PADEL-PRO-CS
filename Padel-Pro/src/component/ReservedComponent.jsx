@@ -60,25 +60,26 @@ const ReservedComponent = (props) => {
             }
         }
         useEffect(() => {
-            // Función que hace todo el fetch
+            
             const fetchData = async (user) => {
-                await controlNewToken(user); // renovar token si está expirado
+                await controlNewToken(user); 
                   
             };
         
             if (userLogin) {
-                // Si ya tenemos el usuario en el contexto, usamos directamente
+
                 fetchData(userLogin);
+                
             } else {
-                // Intentar recuperar del storage
+                
                 const storedUser = sessionStorage.getItem("user");
                 if (storedUser) {
                     const parsedUser = JSON.parse(storedUser);
-                    changeUser(parsedUser); // actualiza el contexto
-                    fetchData(parsedUser);  // usa el usuario recuperado
+                    changeUser(parsedUser); 
+                    fetchData(parsedUser);  
                 } 
             }
-        }, []); // se ejecuta 
+        }, []); 
     
     return (
         <div className='container-resume'>

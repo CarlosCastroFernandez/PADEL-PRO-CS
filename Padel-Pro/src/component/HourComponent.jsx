@@ -35,7 +35,7 @@ const HourComponent = (props) => {
 
             const numeroDia = fecha.getDate();
             const nombreDia = fecha.toLocaleDateString('es-ES', { weekday: 'long' }).slice(0, 3);
-            const mesIndex = fecha.getMonth(); // 0 = enero, 1 = febrero...
+            const mesIndex = fecha.getMonth(); 
 
             diasSemana.push({
                 numero: numeroDia,

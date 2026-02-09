@@ -46,7 +46,7 @@ const AdminComponent = () => {
             const filteredClasses = listClasses.filter((element) => {
                 const classDate = new Date(element.date);
 
-                // Incluye la clase si es posterior a ahora
+                
                 return classDate >= now;
             });
 
@@ -325,25 +325,25 @@ const AdminComponent = () => {
     }
 
     useEffect(() => {
-        // Función que hace todo el fetch
+        
         const fetchData = async (user) => {
-            await controlNewToken(user); // renovar token si está expirado
-            await classes(user);         // cargar clases
+            await controlNewToken(user); 
+            await classes(user);         
         };
 
         if (userLogin) {
-            // Si ya tenemos el usuario en el contexto, usamos directamente
+            
             fetchData(userLogin);
         } else {
-            // Intentar recuperar del storage
+            
             const storedUser = sessionStorage.getItem("user");
             if (storedUser) {
                 const parsedUser = JSON.parse(storedUser);
-                changeUser(parsedUser); // actualiza el contexto
-                fetchData(parsedUser);  // usa el usuario recuperado
+                changeUser(parsedUser); 
+                fetchData(parsedUser);  
             } 
         }
-    }, []); // se ejecuta 
+    }, []); 
 
     const formatDate = (dateStr) => {
         const d = new Date(dateStr);
@@ -357,7 +357,7 @@ const AdminComponent = () => {
     const groupByDate = (classes) => {
         return classes.reduce((acc, curr) => {
             const { day, month, year } = formatDate(curr.date);
-            const dateKey = `${year}-${month}-${day}`; // formato YYYY-MM-DD
+            const dateKey = `${year}-${month}-${day}`; 
             if (!acc[dateKey]) acc[dateKey] = [];
             acc[dateKey].push(curr);
             return acc;

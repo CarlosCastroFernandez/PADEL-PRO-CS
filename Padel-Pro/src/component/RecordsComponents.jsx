@@ -28,7 +28,7 @@ const RecordsComponents = () => {
             const filteredClasses = listClassByStudent.filter((element) => {
                 const classDate = new Date(element.date);
 
-                // Incluye la clase si es posterior a ahora
+                
                 return classDate >= now;
             });
 
@@ -52,7 +52,7 @@ const RecordsComponents = () => {
     const groupByDate = (classes) => {
         return classes.reduce((acc, curr) => {
             const { day, month, year } = formatDate(curr.date);
-            const dateKey = `${year}-${month}-${day}`; // formato YYYY-MM-DD
+            const dateKey = `${year}-${month}-${day}`; 
             if (!acc[dateKey]) acc[dateKey] = [];
             acc[dateKey].push(curr);
             return acc;
@@ -70,26 +70,26 @@ const RecordsComponents = () => {
                }
            }
       useEffect(() => {
-             // Función que hace todo el fetch
+             
              const fetchData = async (user) => {
-                 await controlNewToken(user); // renovar token si está expirado
+                 await controlNewToken(user); 
                  await classByStudent(user)
                    
              };
          
              if (userLogin) {
-                 // Si ya tenemos el usuario en el contexto, usamos directamente
+                 
                  fetchData(userLogin);
              } else {
-                 // Intentar recuperar del storage
+                 
                  const storedUser = sessionStorage.getItem("user");
                  if (storedUser) {
                      const parsedUser = JSON.parse(storedUser);
-                     changeUser(parsedUser); // actualiza el contexto
-                     fetchData(parsedUser);  // usa el usuario recuperado
+                     changeUser(parsedUser); 
+                     fetchData(parsedUser);  
                  } 
              }
-         }, []); // se eje
+         }, []); 
 
     return (
         
@@ -137,7 +137,7 @@ const RecordsComponents = () => {
                                         );
                                     }
 
-                                    // Usuario trainer
+
                                     return (
                                         <div
                                             className="content"

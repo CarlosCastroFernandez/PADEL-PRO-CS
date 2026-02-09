@@ -25,11 +25,11 @@ export const hourAvaliable = async (id) => {
 };
 export const hourAvaliableDate = async (date, trainerId) => {
   console.log("AQUI EL DATE: " + trainerId);
-  let parts = date.split("-"); // ["2026", "02", "4"]
+  let parts = date.split("-"); 
   if (Number(parts[2]) < 10) {
-    parts[2] = parts[2].padStart(2, "0"); // "4" -> "04"
+    parts[2] = parts[2].padStart(2, "0"); 
   }
-  date = parts.join("-"); // "2
+  date = parts.join("-"); 
   console.log("AQUI EL DATE: " + date);
 
   try {
@@ -59,17 +59,6 @@ export const hourAvaliableDate = async (date, trainerId) => {
 };
 export const createClass = async (date, trainerId, listStudent) => {
   try {
-    /*let horaUTC;
-        if (!date.includes("T")){
-        const arrayHours=date.split("-");
-        arrayHours[1]=arrayHours[1].includes("0")?arrayHours[1].replace("0",""):arrayHours[1];
-        arrayHours[3]=arrayHours[3].replace(":00","");
-        console.log(arrayHours)
-         horaUTC=  new Date(Date.UTC(Number(arrayHours[0]),Number(arrayHours[1]-1),Number(arrayHours[2]),Number(arrayHours[3]),0))
-        horaUTC.toISOString();
-        }else{
-            horaUTC=new Date(date).toISOString();
-        }*/
 
     const result = await fetch("http://localhost:3000/class/createClass", {
       method: "POST",
