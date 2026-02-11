@@ -81,4 +81,4 @@ http://localhost:3000/admin/createAdmin
 - **CSS3** — Diseño y estilos visuales.
 
 # Como ejecutar el proyect:
-Se clona este repo y abre la ubicación del proyecto y se ejecuta en consola **npm i** para instalar dependencias y luego **npm run dev** para levantar el proyecto comprobando anteriormente si esta desplegado el backend 
+Se clona este repo y abre la ubicación del proyecto y se ejecuta en consola **npm i** para instalar dependencias y luego **npm run dev** para levantar el proyecto comprobando anteriormente si esta desplegado el backend (para hacer esto hay que tener **node** instalado)
