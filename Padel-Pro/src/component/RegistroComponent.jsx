@@ -23,8 +23,8 @@ const RegistroComponent = () => {
 
     if (!student || student.lastName === undefined) {
       mapa.set("lastName", "Los apellido no puede estar vacío ")
-    } else if (student.lastName.length < 6) {
-      mapa.set("lastName", "Los apellidos no puede tener menos de 6 carácteres")
+    } else if (student.lastName.length < 3) {
+      mapa.set("lastName", "Los apellidos no puede tener menos de 3 carácteres")
     }
 
     if (!student || student.email === undefined) {
@@ -32,8 +32,8 @@ const RegistroComponent = () => {
     }
     if (!student || student.password === undefined) {
       mapa.set("password", "La contraseña no puede estar vacío ")
-    } else if (student.password.length < 3) {
-      mapa.set("password", "La contraseña no puede tener menos de 3 carácteres")
+    } else if (student.password.length < 6) {
+      mapa.set("password", "La contraseña no puede tener menos de 6 carácteres")
     }
 
 
