@@ -26,8 +26,8 @@ const LoginComponent = () => {
         if (requestStudent.password === undefined) {
             mapa.set("password", "No puede estar vacío")
 
-        } else if (requestStudent.password.length <= 3) {
-            mapa.set("password", "Debe de tener mas de 3 caracteres")
+        } else if (requestStudent.password.length <= 6) {
+            mapa.set("password", "Debe de tener mas de 6 caracteres")
         }
 
         setMapLogin(mapa);
