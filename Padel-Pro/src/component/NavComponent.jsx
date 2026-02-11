@@ -6,9 +6,9 @@ import { claseContext } from './Context';
 
 const Nav = () => {
 
-  const { userLogin , changeUser } = useContext(claseContext);
+  const { userLogin, changeUser } = useContext(claseContext);
   const navigate = useNavigate();
-  console.log("EL USERRR " + userLogin?.status)
+
 
   const navigatLogIn = () => {
     navigate("/log-in");
@@ -16,25 +16,25 @@ const Nav = () => {
   const navigateRegister = () => {
     navigate("/log-in/registro");
   }
-  const reset=()=>{
+  const reset = () => {
     sessionStorage.clear();
     changeUser(undefined);
 
   }
 
   const showUserInNav = () => {
-    if (userLogin!== undefined) {
-      console.log(userLogin)
-          const nameVisual = userLogin.name + " " + userLogin.lastName
-          const nameResult = nameVisual.split(" ").slice(0, 2)
+    if (userLogin !== undefined) {
+
+      const nameVisual = userLogin.name + " " + userLogin.lastName
+      const nameResult = nameVisual.split(" ").slice(0, 2)
       switch (userLogin.status) {
         case "admin":
           return (
             <>
-              <div style={{display:"flex",justifyContent:"center",alignItems:"center", gap:"20px"}}>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px" }}>
                 <h5>{nameResult[0] + " " + nameResult[1]}</h5>
-                <button className='button-menu2'onClick={()=>navigate("/admin")} >Ver Clases</button>
-                <button onClick={()=>reset()} className='button-menu1' >Log-Out</button>
+                <button className='button-menu2' onClick={() => navigate("/admin")} >Ver Clases</button>
+                <button onClick={() => reset()} className='button-menu1' >Log-Out</button>
               </div>
 
             </>
@@ -42,22 +42,22 @@ const Nav = () => {
         case "user":
           return (
             <>
-              <div style={{display:"flex",justifyContent:"center",alignItems:"center", gap:"20px"}}>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px" }}>
                 <h5>{nameResult[0] + " " + nameResult[1]}</h5>
-                <button className='button-menu2' onClick={()=>navigate("/records")}>Ver Reservas</button>
-                <button onClick={()=>reset()} className='button-menu1' >Log-Out</button>
+                <button className='button-menu2' onClick={() => navigate("/records")}>Ver Reservas</button>
+                <button onClick={() => reset()} className='button-menu1' >Log-Out</button>
               </div>
 
             </>
           )
         case "trainer":
-      
+
           return (
             <>
-              <div style={{display:"flex",justifyContent:"center",alignItems:"center", gap:"20px"}}>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px" }}>
                 <h5>{nameResult[0] + " " + nameResult[1]}</h5>
-                <button className='button-menu2' onClick={()=>navigate("/records")}>Ver Clases</button>
-                <button onClick={()=>reset()} className='button-menu1' >Log-Out</button>
+                <button className='button-menu2' onClick={() => navigate("/records")}>Ver Clases</button>
+                <button onClick={() => reset()} className='button-menu1' >Log-Out</button>
               </div>
 
             </>
@@ -68,8 +68,8 @@ const Nav = () => {
 
   }
   useEffect(() => {
-  console.log(userLogin)
-}, []);
+
+  }, []);
 
   return (
     <section>

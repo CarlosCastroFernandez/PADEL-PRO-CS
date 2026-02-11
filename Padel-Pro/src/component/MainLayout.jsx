@@ -6,11 +6,11 @@ import FooterComponent from './FooterComponent'
 const MainLayout = () => {
   return (
     <>
-   <NavComponent></NavComponent>
-   <MarkerComponent></MarkerComponent>
-   <FooterComponent></FooterComponent>
+      <NavComponent></NavComponent>
+      <MarkerComponent></MarkerComponent>
+      <FooterComponent></FooterComponent>
 
-   </>
+    </>
   )
 }
 

@@ -23,8 +23,8 @@ const RegistroComponent = () => {
 
     if (!student || student.lastName === undefined) {
       mapa.set("lastName", "Los apellido no puede estar vacío ")
-    } else if (student.lastName.length < 3) {
-      mapa.set("lastName", "Los apellidos no puede tener menos de 3 carácteres")
+    } else if (student.lastName.length < 6) {
+      mapa.set("lastName", "Los apellidos no puede tener menos de 6 carácteres")
     }
 
     if (!student || student.email === undefined) {
@@ -63,7 +63,7 @@ const RegistroComponent = () => {
     const mapa = checkRegistro();
     if (mapa.get("name") === undefined && mapa.get("email") === undefined && mapa.get("lastName") === undefined && mapa.get("password") === undefined) {
       const student2 = await createStudent(email, password, name, lastName)
-      console.log(student2)
+
       navigate("/log-in", {
         state: {
           data: student
@@ -105,7 +105,7 @@ const RegistroComponent = () => {
 
         }
         <label htmlFor="">Email</label>
-        <input onChange={(e) => handleStudent("email", e.target.value)} type="text" placeholder='     Tu@email.com' />
+        <input onChange={(e) => handleStudent("email", e.target.value)} type="email" placeholder='     Tu@email.com' />
         {mapRegistro.get("email") && (
           <label style={{ color: "red" }}>{mapRegistro.get("email")}</label>
         )
