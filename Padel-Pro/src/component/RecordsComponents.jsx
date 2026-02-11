@@ -8,12 +8,11 @@ import { getNewToken } from '../services/TokenRefres';
 
 const RecordsComponents = () => {
     const [listClass, setListClass] = useState([]);
-    const { userLogin,changeUser } = useContext(claseContext);
+    const { userLogin, changeUser } = useContext(claseContext);
     const navigate = useNavigate();
 
     const classByStudent = async (user) => {
         let idMoment = user._id;
-        console.log("IDDIDIDID " + idMoment)
         let listClassByStudent;
         if (user && userLogin.status === "user") {
             listClassByStudent = await classesByStudents(idMoment);
@@ -28,7 +27,7 @@ const RecordsComponents = () => {
             const filteredClasses = listClassByStudent.filter((element) => {
                 const classDate = new Date(element.date);
 
-                
+
                 return classDate >= now;
             });
 
@@ -52,7 +51,7 @@ const RecordsComponents = () => {
     const groupByDate = (classes) => {
         return classes.reduce((acc, curr) => {
             const { day, month, year } = formatDate(curr.date);
-            const dateKey = `${year}-${month}-${day}`; 
+            const dateKey = `${year}-${month}-${day}`;
             if (!acc[dateKey]) acc[dateKey] = [];
             acc[dateKey].push(curr);
             return acc;
@@ -62,37 +61,37 @@ const RecordsComponents = () => {
     const groupedClasses = groupByDate(listClass);
 
     const controlNewToken = async (user) => {
-               const newToken = await getNewToken(user.status)
-               if (!newToken) {
-                   changeUser(undefined)
-                   sessionStorage.removeItem("user")
-                   navigate("/log-in")
-               }
-           }
-      useEffect(() => {
-             
-             const fetchData = async (user) => {
-                 await controlNewToken(user); 
-                 await classByStudent(user)
-                   
-             };
-         
-             if (userLogin) {
-                 
-                 fetchData(userLogin);
-             } else {
-                 
-                 const storedUser = sessionStorage.getItem("user");
-                 if (storedUser) {
-                     const parsedUser = JSON.parse(storedUser);
-                     changeUser(parsedUser); 
-                     fetchData(parsedUser);  
-                 } 
-             }
-         }, []); 
+        const newToken = await getNewToken(user.status)
+        if (!newToken) {
+            changeUser(undefined)
+            sessionStorage.removeItem("user")
+            navigate("/log-in")
+        }
+    }
+    useEffect(() => {
+
+        const fetchData = async (user) => {
+            await controlNewToken(user);
+            await classByStudent(user)
+
+        };
+
+        if (userLogin) {
+
+            fetchData(userLogin);
+        } else {
+
+            const storedUser = sessionStorage.getItem("user");
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                changeUser(parsedUser);
+                fetchData(parsedUser);
+            }
+        }
+    }, []);
 
     return (
-        
+
         <main>
             <section className='section-1-records'>
                 <div className="back-button">
@@ -104,8 +103,8 @@ const RecordsComponents = () => {
                     />
                 </div>
                 <div className='title'>
-                    <h1 style={{fontSize:"55px",color:"white"}}>Bienvenido a <span>sus reservas</span></h1>
-                    <i style={{color:"white",fontSize:"17px"}}>En esta sección podrás ver qué reservas tienes pendientes a realizar</i>
+                    <h1 style={{ fontSize: "55px", color: "white" }}>Bienvenido a <span>sus reservas</span></h1>
+                    <i style={{ color: "white", fontSize: "17px" }}>En esta sección podrás ver qué reservas tienes pendientes a realizar</i>
                 </div>
 
             </section>
@@ -117,7 +116,7 @@ const RecordsComponents = () => {
                             <summary>Clases del {date}</summary>
                             <div className='phather-content'>
                                 {classesOfDay.map((element) => {
-                                    console.log(JSON.stringify(element))
+
                                     const { hour } = formatDate(element.date);
 
                                     // Usuario normal

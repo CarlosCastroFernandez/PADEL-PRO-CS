@@ -9,39 +9,39 @@ const ReservedComponent = (props) => {
     const [message, setMessage] = useState("")
     const { classes } = props;
     const navigate = useNavigate();
-    console.log(classes.hour);
 
-    console.log(JSON.stringify(classes));
+
+
 
     const creationClass = async (date, idTrainer, listStudents) => {
-        console.log(JSON.stringify(listStudents));
+
         let result = await createClass(date, idTrainer, listStudents);
-        console.log(JSON.stringify(result))
+
         if (result !== null && result !== "EXITOSO" && result !== "EXPIRED") {
             setMessage("Este estudiante ya tiene una clase a esta hora");
         } else if (result === null) {
             setMessage("Algo ha ido mal contacta con el desarrollador");
         } else if (result === "EXPIRED") {
             const newToken = await getNewToken(userLogin.status);
-            console.log(newToken);
+
             if (newToken) {
                 result = await createClass(date, idTrainer, listStudents);
                 if (result !== null && result !== "EXITOSO") {
-                    console.log(JSON.stringify(result))
+
                     setMessage("Este estudiante ya tiene una clase a esta hora");
                 } else if (result === null) {
                     setMessage("Algo ha ido mal contacta con el desarrollador");
                 } else {
                     setMessage("CLASE RESERVADA");
                 }
-            }else{
+            } else {
                 changeUser(undefined)
                 navigate("/log-in")
             }
 
 
-        }else{
-             setMessage("CLASE RESERVADA");
+        } else {
+            setMessage("CLASE RESERVADA");
         }
 
 
@@ -51,36 +51,36 @@ const ReservedComponent = (props) => {
 
     }
 
-        const controlNewToken = async (user) => {
-            const newToken = await getNewToken(user.status)
-            if (!newToken) {
-                changeUser(undefined)
-                sessionStorage.removeItem("user")
-                navigate("/log-in")
+    const controlNewToken = async (user) => {
+        const newToken = await getNewToken(user.status)
+        if (!newToken) {
+            changeUser(undefined)
+            sessionStorage.removeItem("user")
+            navigate("/log-in")
+        }
+    }
+    useEffect(() => {
+
+        const fetchData = async (user) => {
+            await controlNewToken(user);
+
+        };
+
+        if (userLogin) {
+
+            fetchData(userLogin);
+
+        } else {
+
+            const storedUser = sessionStorage.getItem("user");
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                changeUser(parsedUser);
+                fetchData(parsedUser);
             }
         }
-        useEffect(() => {
-            
-            const fetchData = async (user) => {
-                await controlNewToken(user); 
-                  
-            };
-        
-            if (userLogin) {
+    }, []);
 
-                fetchData(userLogin);
-                
-            } else {
-                
-                const storedUser = sessionStorage.getItem("user");
-                if (storedUser) {
-                    const parsedUser = JSON.parse(storedUser);
-                    changeUser(parsedUser); 
-                    fetchData(parsedUser);  
-                } 
-            }
-        }, []); 
-    
     return (
         <div className='container-resume'>
             <h4 style={{ color: "white", fontSize: "20px" }}>RESUMEN DE RESERVA</h4>

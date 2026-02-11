@@ -25,7 +25,7 @@ const LoginComponent = () => {
         }
         if (requestStudent.password === undefined) {
             mapa.set("password", "No puede estar vacío")
-         
+
         } else if (requestStudent.password.length <= 3) {
             mapa.set("password", "Debe de tener mas de 3 caracteres")
         }
@@ -41,16 +41,16 @@ const LoginComponent = () => {
     }
 
     const handleLogin = (prop, propValue) => {
-    setRequestStudent(prev => {
-        const updated = { ...prev, [prop]: propValue }
+        setRequestStudent(prev => {
+            const updated = { ...prev, [prop]: propValue }
 
-        if (propValue === "") {
-            delete updated[prop]
-        }
+            if (propValue === "") {
+                delete updated[prop]
+            }
 
-        return updated
-    })
-}
+            return updated
+        })
+    }
     const iniciarSesion = async (email, password) => {
         const mapa = checkControlLogin();
         if (mapa.get("email") === undefined && mapa.get("password") === undefined) {
@@ -60,12 +60,12 @@ const LoginComponent = () => {
                     ...userBBDForUser.data,
                     status: "user"
                 }
-                sessionStorage.setItem("token",userBBDForUser.token)
-                sessionStorage.setItem("tokenRefresh",userBBDForUser.tokenRefresh)
+                sessionStorage.setItem("token", userBBDForUser.token)
+                sessionStorage.setItem("tokenRefresh", userBBDForUser.tokenRefresh)
                 changeUser(userNorm)
-                sessionStorage.setItem("user",JSON.stringify(userNorm))
+                sessionStorage.setItem("user", JSON.stringify(userNorm))
                 navigateHome()
-                console.log("HOLA")
+
                 return;
             }
             const userBBDTrainer = await findTrainerByEmail(email, password);
@@ -74,30 +74,30 @@ const LoginComponent = () => {
                     ...userBBDTrainer.data,
                     status: "trainer"
                 }
-                  sessionStorage.setItem("token",userBBDTrainer.token)
-                  sessionStorage.setItem("tokenRefresh",userBBDTrainer.tokenRefresh)
+                sessionStorage.setItem("token", userBBDTrainer.token)
+                sessionStorage.setItem("tokenRefresh", userBBDTrainer.tokenRefresh)
                 changeUser(userNorm)
-                sessionStorage.setItem("user",JSON.stringify(userNorm))
+                sessionStorage.setItem("user", JSON.stringify(userNorm))
                 navigateHome()
                 return;
             }
             const userBBDTAdmin = await findAdminByEmail(email, password);
-            console.log(userBBDTAdmin)
+
             if (userBBDTAdmin?.data !== undefined) {
                 const userNorm = {
                     ...userBBDTAdmin.data,
                     status: "admin"
                 }
-                console.log(userNorm)
-                  sessionStorage.setItem("token",userBBDTAdmin.token)
-                  sessionStorage.setItem("tokenRefresh",userBBDTAdmin.tokenRefresh)
+
+                sessionStorage.setItem("token", userBBDTAdmin.token)
+                sessionStorage.setItem("tokenRefresh", userBBDTAdmin.tokenRefresh)
                 changeUser(userNorm)
-                sessionStorage.setItem("user",JSON.stringify(userNorm))
+                sessionStorage.setItem("user", JSON.stringify(userNorm))
                 navigateHome()
                 return;
-            }else{
-                let mapa=new Map();
-                mapa.set("KO","El email o contraseña son incorrectos");
+            } else {
+                let mapa = new Map();
+                mapa.set("KO", "El email o contraseña son incorrectos");
                 setMapLogin(mapa);
             }
 
@@ -111,7 +111,7 @@ const LoginComponent = () => {
         if (location?.state?.data?.email !== undefined) {
             handleLogin("email", location.state.data.email)
         }
-        console.log(requestStudent)
+
     }, [])
     return (
         <main className='main-login'>
@@ -140,7 +140,7 @@ const LoginComponent = () => {
                 />
 
                 {mapLogin.get("email") && (
-                    <label style={{color:"red"}}>{mapLogin.get("email")}</label>
+                    <label style={{ color: "red" }}>{mapLogin.get("email")}</label>
                 )}
 
 
@@ -153,12 +153,12 @@ const LoginComponent = () => {
                 />
 
                 {mapLogin.get("password") && (
-                    <label style={{color:"red"}}>{mapLogin.get("password")}</label>
+                    <label style={{ color: "red" }}>{mapLogin.get("password")}</label>
                 )}
                 <button onClick={async () => await iniciarSesion(requestStudent.email, requestStudent.password)}>Iniciar Sesión</button>
-                {mapLogin.get("KO")&&
+                {mapLogin.get("KO") &&
                     (
-                        <p style={{color:"red"}}>{mapLogin.get("KO")}</p>
+                        <p style={{ color: "red" }}>{mapLogin.get("KO")}</p>
                     )
                 }
                 <p className='paragraph-footer'>¿No tienes cuenta? <Link className='link' to="registro">Registrate</Link></p>

@@ -14,12 +14,10 @@ const HourComponent = (props) => {
     const changeAll = async (idx) => {
         setSelectDay(idx)
         onChangeClase(classes.trainer, listDay[idx], classes.hour ? classes.hour : null);
-        console.log("HOLAAAAAAAAAA" + JSON.stringify(classes.trainer))
-        console.log(listDay[idx])
         if (classes.trainer && listDay[idx]) {
             const listHours = await hourAvaliableDate("" + new Date().getFullYear() + "-" + listDay[idx].mes + "-" + listDay[idx].numero, classes.trainer._id)
             changeListHour(listHours);
-            console.log(listHour)
+
         }
 
     }
@@ -35,7 +33,7 @@ const HourComponent = (props) => {
 
             const numeroDia = fecha.getDate();
             const nombreDia = fecha.toLocaleDateString('es-ES', { weekday: 'long' }).slice(0, 3);
-            const mesIndex = fecha.getMonth(); 
+            const mesIndex = fecha.getMonth();
 
             diasSemana.push({
                 numero: numeroDia,
