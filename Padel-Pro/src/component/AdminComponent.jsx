@@ -3,7 +3,7 @@ import "./AdminComponent.css";
 import { createClass, deleteClassById, deleteStudentByClass, getAllClasses } from '../services/ClassApi';
 import { createTrainer } from '../services/TrainerApi';
 import atrasImg from "../img/aqua.png"
-import { createStudent, getStudentByEmail, modifyStudent } from '../services/StudentApi';
+import { createSinceAdmin, createStudent, getStudentByEmail, modifyStudent } from '../services/StudentApi';
 import { useNavigate } from 'react-router-dom';
 import { claseContext } from './Context';
 import { getNewToken } from '../services/TokenRefres';
@@ -26,7 +26,7 @@ const AdminComponent = () => {
 
     const navigate = useNavigate();
     const classes = async () => {
-        console.log(JSON.stringify(userLogin))
+
         let listClasses = await getAllClasses();
         if (listClasses != null && listClasses.status === "EXPIRED") {
             const newToken = await getNewToken(userLogin.status);
@@ -46,7 +46,7 @@ const AdminComponent = () => {
             const filteredClasses = listClasses.filter((element) => {
                 const classDate = new Date(element.date);
 
-                
+
                 return classDate >= now;
             });
 
@@ -118,8 +118,8 @@ const AdminComponent = () => {
     const crearTrainer = async (trainerPadel) => {
 
         const mapErrorTrainer = checkTrainer(trainerPadel);
-        console.log("TAAMAÑOOOO" + mapErrorTrainer.size)
-        mapErrorTrainer.forEach(element => console.log(element))
+
+
         if (mapErrorTrainer.size === 0) {
             const newTrainer = await createTrainer(trainerPadel.email, trainerPadel.password, trainerPadel.name, trainerPadel.lastName,
                 trainerPadel.description, trainerPadel.priceByClass, trainerPadel.sex, trainerPadel.experienceYears
@@ -160,14 +160,14 @@ const AdminComponent = () => {
     const crearPadelero = async (padeleroStudent) => {
 
         const mapErrorPadelero = checkPadelero(padeleroStudent);
-        console.log("TAAMAÑOOOOPADELEROOOOO" + mapErrorPadelero.size)
-        mapErrorPadelero.forEach(element => console.log(element))
+
+
         if (mapErrorPadelero.size === 0) {
-            const newPadelero = await createStudent(padeleroStudent.email, padeleroStudent.password, padeleroStudent.name, padeleroStudent.lastName)
+            const newPadelero = await createSinceAdmin(padeleroStudent.email, padeleroStudent.password, padeleroStudent.name, padeleroStudent.lastName)
             if (newPadelero.status === "EXPIRED") {
                 const newToken = await getNewToken(userLogin.status);
                 if (newToken) {
-                    const padeleroNew = await createStudent(padeleroStudent.email, padeleroStudent.password, padeleroStudent.name, padeleroStudent.lastName)
+                    const padeleroNew = await createSinceAdmin(padeleroStudent.email, padeleroStudent.password, padeleroStudent.name, padeleroStudent.lastName)
                 } else {
                     changeUser(undefined);
                     sessionStorage.removeItem("user")
@@ -211,7 +211,7 @@ const AdminComponent = () => {
         setAddStudent(newAddStudent);
     }
     const addStudentInClass = async (email, trainerId, date) => {
-        console.log(email, trainerId, date);
+
         const mapError = checkAddStudent(addStudent)
         setMapErrorPadelero(mapError);
         if (mapError.size === 0) {
@@ -228,7 +228,7 @@ const AdminComponent = () => {
                     navigate("/log-in")
                 }
             }
-            console.log(student)
+
             if (student) {
                 let listIdStudent = [student._id];
                 let data = await createClass(classe.date, trainerId, listIdStudent)
@@ -284,7 +284,7 @@ const AdminComponent = () => {
             ...modifyPlayer,
             [prop]: propValue
         })
-        console.log(JSON.stringify(modifyPlayer))
+
 
 
     }
@@ -325,25 +325,25 @@ const AdminComponent = () => {
     }
 
     useEffect(() => {
-        
+
         const fetchData = async (user) => {
-            await controlNewToken(user); 
-            await classes(user);         
+            await controlNewToken(user);
+            await classes(user);
         };
 
         if (userLogin) {
-            
+
             fetchData(userLogin);
         } else {
-            
+
             const storedUser = sessionStorage.getItem("user");
             if (storedUser) {
                 const parsedUser = JSON.parse(storedUser);
-                changeUser(parsedUser); 
-                fetchData(parsedUser);  
-            } 
+                changeUser(parsedUser);
+                fetchData(parsedUser);
+            }
         }
-    }, []); 
+    }, []);
 
     const formatDate = (dateStr) => {
         const d = new Date(dateStr);
@@ -357,7 +357,7 @@ const AdminComponent = () => {
     const groupByDate = (classes) => {
         return classes.reduce((acc, curr) => {
             const { day, month, year } = formatDate(curr.date);
-            const dateKey = `${year}-${month}-${day}`; 
+            const dateKey = `${year}-${month}-${day}`;
             if (!acc[dateKey]) acc[dateKey] = [];
             acc[dateKey].push(curr);
             return acc;
@@ -380,7 +380,7 @@ const AdminComponent = () => {
                     />
                 </div>
                 <div className='titulo'>
-                    <h1 style={{ textAlign: "center",color:"white" ,fontSize:"55px"}}>PANEL D<span>E CONTROL</span>  </h1>
+                    <h1 style={{ textAlign: "center", color: "white", fontSize: "55px" }}>PANEL D<span>E CONTROL</span>  </h1>
                     <i style={{ textAlign: "center", lineHeight: "30px" }}>
                         Este es su panel de control donde podrás cancelar clases, borrar
                         padeleros de sus clases <br />e incluso añadir padeleros a las clases
@@ -574,10 +574,10 @@ const AdminComponent = () => {
 
 
                             }
-                            {mapErrorTrainer.size===0 &&(
+                            {mapErrorTrainer.size === 0 && (
                                 <label style={{ color: "green" }}>Entrenador Creado</label>
                             )
-                            
+
                             }
 
                             <div className="modal-footer">
@@ -673,7 +673,7 @@ const AdminComponent = () => {
                             }
 
                             {
-                                mapErrorPadelero.size===0 &&(
+                                mapErrorPadelero.size === 0 && (
                                     <label style={{ color: "green" }}>Padelero Creado</label>
                                 )
                             }

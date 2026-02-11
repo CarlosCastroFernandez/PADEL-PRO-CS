@@ -13,14 +13,14 @@ const FooterComponent = () => {
         <h3>CONTACTO</h3>
         <h3>SÍGUENOS</h3>
         <p>La mejor academia de padel con los profesores <br />
-        más cualificados. Mejora tu juego con nosotros
+          más cualificados. Mejora tu juego con nosotros
         </p>
         <p>Inicio</p>
         <p>Calle del Padel, 123, Madrid</p>
         <div>
-          <img style={{width:"30px", backgroundColor:"white", borderRadius:"5px"}} src={instagam} alt="" />
-          <img style={{width:"30px", backgroundColor:"white", borderRadius:"5px"}} src={facebook} alt="" />
-          <img style={{width:"30px", backgroundColor:"white", borderRadius:"5px"}} src={twitter} alt="" />
+          <img style={{ width: "30px", backgroundColor: "white", borderRadius: "5px" }} src={instagam} alt="" />
+          <img style={{ width: "30px", backgroundColor: "white", borderRadius: "5px" }} src={facebook} alt="" />
+          <img style={{ width: "30px", backgroundColor: "white", borderRadius: "5px" }} src={twitter} alt="" />
         </div>
         <p className='sitio'>Reservar Clase</p>
         <p>+34 912 345 678</p>

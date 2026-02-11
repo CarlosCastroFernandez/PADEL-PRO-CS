@@ -7,11 +7,11 @@ const PrivateRoute = ({ children }) => {
   const { userLogin } = useContext(claseContext);
 
   if (!userLogin) {
-    
+
     return <Navigate to="/log-in" replace />;
   }
 
-  return <Outlet/>;
+  return <Outlet />;
 };
 
 export default PrivateRoute;
