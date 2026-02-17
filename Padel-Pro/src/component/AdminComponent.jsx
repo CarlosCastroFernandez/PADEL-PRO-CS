@@ -645,14 +645,14 @@ const AdminComponent = () => {
 
                             {mapErrorPadelero.get("email") ? (
                                 <>
-                                    <input onChange={(e) => handlePadelero("email", e.target.value)} type="text" placeholder="Email" />
+                                    <input onChange={(e) => handlePadelero("email", e.target.value)} type="email" placeholder="Email" />
 
 
                                     <label style={{ color: "red" }}>{mapErrorPadelero.get("email")}</label>
                                 </>
                             ) :
                                 (
-                                    <input onChange={(e) => handlePadelero("email", e.target.value)} type="text" placeholder="Email" />
+                                    <input onChange={(e) => handlePadelero("email", e.target.value)} type="email" placeholder="Email" />
                                 )
 
 
@@ -717,14 +717,14 @@ const AdminComponent = () => {
 
                             {mapErrorPadelero.get("email") ? (
                                 <>
-                                    <input onChange={(e) => handleAddStudent("email", e.target.value)} type="text" placeholder="Email" />
+                                    <input onChange={(e) => handleAddStudent("email", e.target.value)} type="email" placeholder="Email" />
 
 
                                     <label style={{ color: "red" }}>{mapErrorPadelero.get("email")}</label>
                                 </>
                             ) :
                                 (
-                                    <input onChange={(e) => handleAddStudent("email", e.target.value)} type="text" placeholder="Email" />
+                                    <input onChange={(e) => handleAddStudent("email", e.target.value)} type="email" placeholder="Email" />
 
                                 )
 
@@ -787,16 +787,6 @@ const AdminComponent = () => {
 
 
                             }
-
-
-
-
-
-
-
-
-
-
 
 
 
