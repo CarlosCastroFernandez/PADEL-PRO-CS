@@ -22,6 +22,8 @@ const LoginComponent = () => {
         let mapa = new Map();
         if (requestStudent.email === undefined) {
             mapa.set("email", "No puede estar vacío")
+        }else if(!(validarEmail(requestStudent.email))){
+            mapa.set("email", "El email debe de cumplir el formato correcto")
         }
         if (requestStudent.password === undefined) {
             mapa.set("password", "No puede estar vacío")
@@ -38,6 +40,11 @@ const LoginComponent = () => {
 
         return mapa
 
+    }
+
+     const validarEmail = (email) => {
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
     }
 
     const handleLogin = (prop, propValue) => {

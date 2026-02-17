@@ -20,6 +20,7 @@ const RegistroComponent = () => {
     } else if (student.name.length < 3) {
       mapa.set("name", "El nombre no puede tener menos de 3 carácteres")
     }
+    
 
     if (!student || student.lastName === undefined) {
       mapa.set("lastName", "Los apellido no puede estar vacío ")
@@ -29,6 +30,8 @@ const RegistroComponent = () => {
 
     if (!student || student.email === undefined) {
       mapa.set("email", "El email no puese estar vacío")
+    }else if(!(validarEmail(student.email))){
+      mapa.set("email", "El email debe de cumplir formato válido")
     }
     if (!student || student.password === undefined) {
       mapa.set("password", "La contraseña no puede estar vacío ")
@@ -46,6 +49,10 @@ const RegistroComponent = () => {
 
 
   }
+    const validarEmail = (email) => {
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
+    }
 
   const handleStudent = (prop, propValue) => {
     setStudent(pre => {
