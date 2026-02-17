@@ -23,6 +23,7 @@ const AdminComponent = () => {
     const [mapErrorTrainer, setMapErrorTrainer] = useState(new Map())
     const [mapErrorPadelero, setMapErrorPadelero] = useState(new Map())
     const { userLogin, changeUser } = useContext(claseContext);
+    const [com, setCom] = useState(false);
 
     const navigate = useNavigate();
     const classes = async () => {
@@ -59,8 +60,12 @@ const AdminComponent = () => {
 
     const checkTrainer = (newTrainer) => {
         let mapError = new Map();
+        setCom(true)
         if (!newTrainer.email) {
             mapError.set("email", "No puede ser un email vacío");
+        }
+        if (!(validarEmail(newTrainer.email))){
+            mapError.set("email", "Debe de tener formato válido");
         }
         if (!newTrainer.name || newTrainer.name.length <= 3) {
             mapError.set("name", (!newTrainer.name ? "No puede ser un nombre vacío" : newTrainer.name.length <= 3 ? "Mínimo 3 carácteres" : ""));
@@ -89,14 +94,18 @@ const AdminComponent = () => {
     }
     const checkPadelero = (newPadelero) => {
         let mapError = new Map();
+        setCom(true)
         if (!newPadelero?.email) {
             mapError.set("email", "No puede ser un email vacío");
         }
-        if (!newPadelero?.name || newPadelero?.name?.length <= 3) {
-            mapError.set("name", (!newPadelero?.name ? "No puede ser un nombre vacío" : newPadelero?.name.length <= 3 ? "Mínimo 3 carácteres" : ""));
+         if (!(validarEmail(newPadelero?.email))){
+            mapError.set("email", "Debe de tener formato válido");
         }
-        if (!newPadelero?.lastName || newPadelero?.lastName?.length <= 3) {
-            mapError.set("lastName", (!newPadelero?.lastName ? "No puede ser unos apellidos vacío" : newPadelero?.lastName?.length <= 3 ? "Mínimo 3 carácteres" : ""));
+        if (!newPadelero?.name || newPadelero?.name?.length <3) {
+            mapError.set("name", (!newPadelero?.name ? "No puede ser un nombre vacío" : newPadelero?.name.length <3 ? "Mínimo 3 carácteres" : ""));
+        }
+        if (!newPadelero?.lastName || newPadelero?.lastName?.length <3) {
+            mapError.set("lastName", (!newPadelero?.lastName ? "No puede ser unos apellidos vacío" : newPadelero?.lastName?.length < 3 ? "Mínimo 3 carácteres" : ""));
         }
         if (!newPadelero?.password || newPadelero?.password?.length < 6) {
             mapError.set("password", (!newPadelero?.password ? "No puede ser contraseña vacía" : newPadelero?.password?.length <= 6 ? "Mínimo 6 carácteres" : ""));
@@ -139,6 +148,10 @@ const AdminComponent = () => {
 
         }
 
+    }
+    const validarEmail = (email) => {
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
     }
     const handlePadelero = (prop, proValue) => {
         const newPadelero = {
@@ -459,7 +472,7 @@ const AdminComponent = () => {
                             <h2>Nuevo Entrenador</h2>
                             <button
                                 className="close-modal"
-                                onClick={() => setOpenTrainerModal(false)}
+                                onClick={() => {setCom(false); setOpenTrainerModal(false)}}
                             >
                                 ✕
                             </button>
@@ -574,7 +587,7 @@ const AdminComponent = () => {
 
 
                             }
-                            {mapErrorTrainer.size === 0 && (
+                            {mapErrorTrainer.size === 0 && com  && (
                                 <label style={{ color: "green" }}>Entrenador Creado</label>
                             )
 
@@ -584,7 +597,7 @@ const AdminComponent = () => {
                                 <button type="submit" >Guardar</button>
                                 <button
                                     type="button"
-                                    onClick={() => setOpenTrainerModal(false)}
+                                    onClick={() => {setCom(false); setOpenTrainerModal(false)}}
                                 >
                                     Cancelar
                                 </button>
@@ -600,7 +613,7 @@ const AdminComponent = () => {
                             <h2>Nuevo Padelero</h2>
                             <button
                                 className="close-modal"
-                                onClick={() => setOpenPadeleroModal(false)}
+                                onClick={() =>{ setCom(false); setOpenPadeleroModal(false)}}
                             >
                                 ✕
                             </button>
@@ -673,7 +686,7 @@ const AdminComponent = () => {
                             }
 
                             {
-                                mapErrorPadelero.size === 0 && (
+                                mapErrorPadelero.size === 0 && com && (
                                     <label style={{ color: "green" }}>Padelero Creado</label>
                                 )
                             }
@@ -683,7 +696,7 @@ const AdminComponent = () => {
                                 <button type="submit">Guardar</button>
                                 <button
                                     type="button"
-                                    onClick={() => setOpenPadeleroModal(false)}
+                                    onClick={() => {setCom(false); setOpenPadeleroModal(false)}}
                                 >
                                     Cancelar
                                 </button>
