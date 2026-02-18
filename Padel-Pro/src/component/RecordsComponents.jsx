@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import "./RecordsComponents.css";
-import { classesByStudents, classesByTrainer } from '../services/ClassApi';
+import { classesByStudents, classesByTrainer, deleteClassById } from '../services/ClassApi';
 import { claseContext } from './Context';
 import atrasImg from "../img/aqua.png"
 import { useNavigate } from 'react-router-dom';
@@ -24,12 +24,15 @@ const RecordsComponents = () => {
         if (listClassByStudent !== null) {
             const now = new Date();
 
-            const filteredClasses = listClassByStudent.filter((element) => {
+            const filteredClasses = listClassByStudent.filter(async (element) => {
                 const classDate = new Date(element.date);
+                if (element.students.length===0){
+                    await deleteClassById(element._id)
+                }
 
-
-                return classDate >= now;
+                return classDate >= now &&element.students.length>0;
             });
+            
 
             setListClass(filteredClasses);
         } else {
@@ -119,7 +122,31 @@ const RecordsComponents = () => {
 
                                     const { hour } = formatDate(element.date);
 
-                                    // Usuario normal
+                                    // Si es trainer, solo mostrar clase si tiene estudiantes
+                                    if (userLogin && userLogin.status !== "user") {
+                                        if (!element.students || element.students.length === 0) return null;
+
+                                        return (
+                                            <div
+                                                className="content"
+                                                key={element._id}
+                                                style={{ borderBottom: "1px solid hsl(var(--primary))", paddingBottom: "10px", marginBottom: "10px" }}
+                                            >
+                                                <p>HORA: {hour}:00</p>
+                                                {element.students.map((student) => (
+                                                    <div key={student._id} style={{ marginBottom: "10px" }}>
+                                                        <ul>
+                                                            <li style={{ listStyle: "none" }}>
+                                                                {student.lastName.toUpperCase()}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        );
+                                    }
+
+                                    // Si es user, renderizar normalmente
                                     if (userLogin && userLogin.status === "user") {
                                         return (
                                             <div
@@ -136,26 +163,7 @@ const RecordsComponents = () => {
                                         );
                                     }
 
-
-                                    return (
-                                        <div
-                                            className="content"
-                                            key={element._id}
-                                            style={{ borderBottom: "1px solid hsl(var(--primary))", paddingBottom: "10px", marginBottom: "10px" }}
-                                        >
-                                            <p>HORA: {hour}:00</p>
-                                            {element.students.map((student) => (
-                                                <div key={student._id} style={{ marginBottom: "10px" }}>
-
-                                                    <ul >
-                                                        <li style={{ listStyle: "none" }}>
-                                                            {student.lastName.toUpperCase()}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    );
+                                    return null;
                                 })}
                             </div>
                         </details>

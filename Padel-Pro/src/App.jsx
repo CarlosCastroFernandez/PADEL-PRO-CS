@@ -10,6 +10,7 @@ import ProviderComponent from './component/ProviderComponent';
 import RecordsComponents from './component/RecordsComponents';
 import PrivateRoute from './component/PrivateRouter';
 import AdminComponent from './component/AdminComponent';
+import PanelComponent from './component/PanelComponent';
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
       <ProviderComponent>
         <BrowserRouter>
           <Routes>
-             <Route path='/' element={<MainLayout />}></Route>
+              <Route path='/' element={<MainLayout />}></Route>
             <Route path='/log-in' element={<LoginLayout />}>
               <Route index element={<LoginComponent />}></Route>
               <Route path='registro' element={<RegistroComponent />}></Route>
@@ -28,8 +29,8 @@ function App() {
             <Route element={<PrivateRoute/>}>
                <Route path="/records" element={<RecordsComponents />} />
                 <Route path="/admin-panel" element={<AdminComponent />} />
+                <Route path="/admin-panel/users" element={<PanelComponent />} />
             </Route>
-             <Route path="/admin" element={<AdminComponent />} />
           </Routes>
         </BrowserRouter>
       </ProviderComponent>

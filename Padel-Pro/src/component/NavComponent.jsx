@@ -33,7 +33,7 @@ const Nav = () => {
             <>
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px" }}>
                 <h5>{nameResult[0] + " " + nameResult[1]}</h5>
-                <button className='button-menu2' onClick={() => navigate("/admin")} >Ver Clases</button>
+                <button className='button-menu2' onClick={() => navigate("/admin-panel")} >Ver Clases</button>
                 <button onClick={() => reset()} className='button-menu1' >Log-Out</button>
               </div>
 

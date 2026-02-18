@@ -1,0 +1,25 @@
+.table-users{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    gap: 30px;
+    padding: 20px;
+    color: white;
+    height: 100%;
+
+}
+.table-users input{
+    height: 30px;
+}
+.container-table{
+     background-color: hsl(var(--background-menu));
+ min-height: 100vh;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}

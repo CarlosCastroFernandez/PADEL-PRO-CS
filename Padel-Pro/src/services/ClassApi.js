@@ -82,7 +82,9 @@ export const createClass = async (date, trainerId, listStudent) => {
       return res.status;
     }else if(res!==null&& res.status==="NO EXITOSO"){
       return res.status;
-    }else{
+    }else if(res!==null&& res.status==="CONFLICTO"){
+      return res.status;
+    } else{
       return null
     }
   } catch (e) {

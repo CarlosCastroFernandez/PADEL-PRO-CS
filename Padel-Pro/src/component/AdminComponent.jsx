@@ -43,12 +43,15 @@ const AdminComponent = () => {
         if (listClasses !== null && listClasses.status === "SUCCESS") {
             listClasses = listClasses.data
             const now = new Date();
+            for (const element of listClasses) {
+                if (!element.students || element.students.length === 0) {
+                    await deleteClassById(element._id);
+                }
+            }
 
-            const filteredClasses = listClasses.filter((element) => {
+            const filteredClasses = listClasses.filter(async (element) => {
                 const classDate = new Date(element.date);
-
-
-                return classDate >= now;
+                return classDate >= now && element.students.length > 0;
             });
 
 
@@ -64,7 +67,7 @@ const AdminComponent = () => {
         if (!newTrainer.email) {
             mapError.set("email", "No puede ser un email vacío");
         }
-        if (!(validarEmail(newTrainer.email))){
+        if (!(validarEmail(newTrainer.email))) {
             mapError.set("email", "Debe de tener formato válido");
         }
         if (!newTrainer.name || newTrainer.name.length <= 3) {
@@ -98,13 +101,13 @@ const AdminComponent = () => {
         if (!newPadelero?.email) {
             mapError.set("email", "No puede ser un email vacío");
         }
-         if (!(validarEmail(newPadelero?.email))){
+        if (!(validarEmail(newPadelero?.email))) {
             mapError.set("email", "Debe de tener formato válido");
         }
-        if (!newPadelero?.name || newPadelero?.name?.length <3) {
-            mapError.set("name", (!newPadelero?.name ? "No puede ser un nombre vacío" : newPadelero?.name.length <3 ? "Mínimo 3 carácteres" : ""));
+        if (!newPadelero?.name || newPadelero?.name?.length < 3) {
+            mapError.set("name", (!newPadelero?.name ? "No puede ser un nombre vacío" : newPadelero?.name.length < 3 ? "Mínimo 3 carácteres" : ""));
         }
-        if (!newPadelero?.lastName || newPadelero?.lastName?.length <3) {
+        if (!newPadelero?.lastName || newPadelero?.lastName?.length < 3) {
             mapError.set("lastName", (!newPadelero?.lastName ? "No puede ser unos apellidos vacío" : newPadelero?.lastName?.length < 3 ? "Mínimo 3 carácteres" : ""));
         }
         if (!newPadelero?.password || newPadelero?.password?.length < 6) {
@@ -279,6 +282,7 @@ const AdminComponent = () => {
             const newToken = await getNewToken(userLogin.status);
             if (newToken) {
                 classAfectada = await deleteStudentByClass(idClass, studentId);
+                await classes();
             } else {
                 changeUser(undefined);
                 sessionStorage.removeItem("user")
@@ -410,6 +414,7 @@ const AdminComponent = () => {
                     <p onClick={() => setOpenTrainerModal(true)}>Nuevo Entrenador</p>
                     <button onClick={() => setOpenPadeleroModal(true)}>+</button>
                     <p onClick={() => setOpenPadeleroModal(true)}>Nuevo Padelero</p>
+                    <p onClick={() => navigate("/admin-panel/users")}>Lista de usuarios</p>
                 </div>
                 <hr />
                 {listClass.length > 0 && (
@@ -418,7 +423,7 @@ const AdminComponent = () => {
                             <summary>Clases del {date}</summary>
 
                             <div className="phather-content">
-                                {classesOfDay.map((element) => {
+                                {classesOfDay.filter(element => element.students && element.students.length > 0).map((element) => {
                                     const { hour } = formatDate(element.date)
 
                                     return (
@@ -472,7 +477,7 @@ const AdminComponent = () => {
                             <h2>Nuevo Entrenador</h2>
                             <button
                                 className="close-modal"
-                                onClick={() => {setCom(false); setOpenTrainerModal(false)}}
+                                onClick={() => { setCom(false); setOpenTrainerModal(false) }}
                             >
                                 ✕
                             </button>
@@ -587,7 +592,7 @@ const AdminComponent = () => {
 
 
                             }
-                            {mapErrorTrainer.size === 0 && com  && (
+                            {mapErrorTrainer.size === 0 && com && (
                                 <label style={{ color: "green" }}>Entrenador Creado</label>
                             )
 
@@ -597,7 +602,7 @@ const AdminComponent = () => {
                                 <button type="submit" >Guardar</button>
                                 <button
                                     type="button"
-                                    onClick={() => {setCom(false); setOpenTrainerModal(false)}}
+                                    onClick={() => { setCom(false); setOpenTrainerModal(false) }}
                                 >
                                     Cancelar
                                 </button>
@@ -613,7 +618,7 @@ const AdminComponent = () => {
                             <h2>Nuevo Padelero</h2>
                             <button
                                 className="close-modal"
-                                onClick={() =>{ setCom(false); setOpenPadeleroModal(false)}}
+                                onClick={() => { setCom(false); setOpenPadeleroModal(false) }}
                             >
                                 ✕
                             </button>
@@ -696,7 +701,7 @@ const AdminComponent = () => {
                                 <button type="submit">Guardar</button>
                                 <button
                                     type="button"
-                                    onClick={() => {setCom(false); setOpenPadeleroModal(false)}}
+                                    onClick={() => { setCom(false); setOpenPadeleroModal(false) }}
                                 >
                                     Cancelar
                                 </button>
