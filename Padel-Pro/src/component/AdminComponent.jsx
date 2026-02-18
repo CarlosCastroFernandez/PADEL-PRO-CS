@@ -24,6 +24,7 @@ const AdminComponent = () => {
     const [mapErrorPadelero, setMapErrorPadelero] = useState(new Map())
     const { userLogin, changeUser } = useContext(claseContext);
     const [com, setCom] = useState(false);
+    const [isModify, setIsModify] = useState(undefined)
 
     const navigate = useNavigate();
     const classes = async () => {
@@ -306,9 +307,14 @@ const AdminComponent = () => {
 
     }
     const checkModifyPlayer = () => {
-        if (modifyPlayer.name === "" && modifyPlayer.lastName === "") {
+        if (modifyPlayer.name === "" || modifyPlayer.lastName === "") {
+            setIsModify(false);
             return false
-        } else {
+        } else if (modifyPlayer.name.length<3 || modifyPlayer.lastName.length<3){
+             setIsModify(false);
+             return false
+            
+        }else{
             return true
         }
     }
@@ -327,6 +333,7 @@ const AdminComponent = () => {
                     navigate("/log-in")
                 }
             }
+            setIsModify(true);
 
             await classes();
 
@@ -778,7 +785,7 @@ const AdminComponent = () => {
                             <h2 style={{ textAlign: "center" }}>Modificar el apellido o el nombre del  padelero</h2>
                             <button
                                 className="close-modal"
-                                onClick={() => setOpenModifyStudentModal(false)}
+                                onClick={() => { setIsModify(undefined); setOpenModifyStudentModal(false) }}
                             >
                                 ✕
                             </button>
@@ -797,14 +804,15 @@ const AdminComponent = () => {
                             <input value={modifyPlayer.name} onChange={(e) => handleModify("name", e.target.value)} type="text" placeholder="Nombre Padelero" />
 
                             <input value={modifyPlayer.lastName} onChange={(e) => handleModify("lastName", e.target.value)} type="text" placeholder="Apellidos" />
-                            {modifyPlayer.name === "" && modifyPlayer.lastName === "" && (
-
-                                <label style={{ color: "red" }}>No pueden ser vacíos</label>
+                           
+                            {isModify  ? (
+                                <label style={{ color: "green" }}>¡Modificado!</label>
+                            ):
+                            (
+                                <label style={{ color: "red" }}> {isModify===undefined?"":"No pueden ser vacíos y deben de contener al menos 3 caracteres o más"}</label>
                             )
-
-
-
-                            }
+                        
+                        }
 
 
 
@@ -813,7 +821,7 @@ const AdminComponent = () => {
                                 <button type="submit">Guardar</button>
                                 <button
                                     type="button"
-                                    onClick={() => setOpenAddStudentModal(false)}
+                                    onClick={() => { setIsModify(undefined); setOpenModifyStudentModal(false) }}
                                 >
                                     Cancelar
                                 </button>
