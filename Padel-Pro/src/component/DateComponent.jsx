@@ -30,6 +30,14 @@ const DateComponent = (props) => {
         for (let h = 16; h <= 21; h++) {
             horas.push(`${h.toString().padStart(2, '0')}:00`);
         }
+        console.log(classes?.day?.numero)
+         console.log(new Date().getDate())
+        if (classes?.day&& classes?.day.numero===new Date().getDate()){
+
+            const hourActual=new Date().getHours();
+            horas = horas.filter(hor => Number(hor.split(":")[0]) > hourActual);
+
+        }
 
         if (classes.trainer && classes.day && listHour && listHour.length > 0) {
             first.current = false;
@@ -52,7 +60,7 @@ const DateComponent = (props) => {
     useEffect(() => {
         generateHours();
 
-    }, [listHour])
+    }, [listHour,classes.day])
     return (
         <div className='container-date'>
             <div className='title-date'>
