@@ -272,6 +272,10 @@ const AdminComponent = () => {
                 setQuestionStudent(false);
             }
 
+            setTimeout(()=>{
+                setQuestionStudent(null)
+            },5000)
+
         }
 
 
@@ -374,7 +378,7 @@ const AdminComponent = () => {
         const day = String(d.getDate()).padStart(2, "0");
         const month = String(d.getMonth() + 1).padStart(2, "0");
         const year = d.getFullYear();
-        const hour = String(d.getHours()).padStart(2, "0");
+        const hour = String(d.getUTCHours()).padStart(2, "0");
         return { day, month, year, hour };
     };
 
@@ -724,7 +728,7 @@ const AdminComponent = () => {
                             <h2>Agregar Alumno a la clase</h2>
                             <button
                                 className="close-modal"
-                                onClick={() => setOpenAddStudentModal(false)}
+                                onClick={() => {setQuestionStudent(null); setOpenAddStudentModal(false)}}
                             >
                                 ✕
                             </button>
@@ -769,7 +773,7 @@ const AdminComponent = () => {
                                 <button type="submit">Guardar</button>
                                 <button
                                     type="button"
-                                    onClick={() => setOpenAddStudentModal(false)}
+                                    onClick={() =>{setQuestionStudent(null); setOpenAddStudentModal(false)}}
                                 >
                                     Cancelar
                                 </button>
